@@ -10675,6 +10675,7 @@ footer {
   position: fixed;
   bottom: 0;
   width: 100%;
+  z-index: 9999;
 }
 
 footer nav {
@@ -10683,12 +10684,17 @@ footer nav {
 }
 
 footer nav a {
-  padding: 1rem;
+  padding: 0.6rem;
   width: 100%;
   text-align: center;
   color: #FFFFFF;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 0.6rem;
+}
+
+footer nav .fa {
+  font-size: 1.5rem !important;
+  margin-bottom: 0.4rem;
 }
 
 footer nav a:active,
@@ -10700,6 +10706,10 @@ footer nav a:hover {
 .card {
   border: none;
   border-radius: 0;
+}
+
+.card .card-body {
+  padding: 0;
 }
 
 .card-header {
@@ -10717,5 +10727,14 @@ footer nav a:hover {
 
 #video-class {
   margin-bottom: 1rem;
+}
+
+#video-class .swiper-slide a {
+  font-size: 1rem;
+  color: #403F4C;
+}
+
+#video-class .swiper-wrapper .active a {
+  color: #E84855;
 }
 

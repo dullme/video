@@ -6,10 +6,10 @@
             <div class="col-md-8">
                 <h1>视频中心</h1>
 
-                <div id="video-class" style="overflow: auto">
+                <div id="video-class" style="margin-top: 1rem;overflow: auto;overflow-x:hidden">
                     <div class="video-swiper-container">
                         <div class="swiper-wrapper" style="text-align: center">
-                            <div class="swiper-slide"><a href="##">电视剧</a></div>
+                            <div class="swiper-slide active"><a href="##">电视剧</a></div>
                             <div class="swiper-slide"><a href="##">电影</a></div>
                             <div class="swiper-slide"><a href="##">VIP精选</a></div>
                             <div class="swiper-slide"><a href="##">综艺</a></div>
@@ -23,30 +23,47 @@
                 <div class="card card-video">
                     <div class="card-header">
                         <a href="##">流浪地球</a>
-                        <a href="##" style="float: right">播放</a>
+                        <a href="##" style="float: right"><i class="fa fa-play-circle-o fa-lg"></i></a>
                     </div>
-
-                    <div class="card-body" style="padding: 0">
+                    <div class="card-body">
                         <div class="swiper-container">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide"><img width="100%" src="{{ asset('images/1.jpeg') }}"></div>
-                                <div class="swiper-slide"><img width="100%" src="{{ asset('images/2.jpeg') }}"></div>
-                                <div class="swiper-slide"><img width="100%" src="{{ asset('images/3.jpeg') }}"></div>
-                                <div class="swiper-slide"><img width="100%" src="{{ asset('images/4.jpeg') }}"></div>
+                                <div class="swiper-slide"><img width="100%" src="{{ asset('images/1-1.jpeg') }}"></div>
+                                <div class="swiper-slide"><img width="100%" src="{{ asset('images/1-2.jpeg') }}"></div>
                             </div>
                         </div>
-                        {{--<img width="100%" src="https://source.unsplash.com/random">--}}
+                    </div>
+                </div>
+
+                <div class="card card-video">
+                    <div class="card-header">
+                        <a href="##">新喜剧之王</a>
+                        <a href="##" style="float: right"><i class="fa fa-play-circle-o fa-lg"></i></a>
+                    </div>
+                    <div class="card-body">
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide"><img width="100%" src="{{ asset('images/2-1.jpeg') }}"></div>
+                                <div class="swiper-slide"><img width="100%" src="{{ asset('images/2-2.jpeg') }}"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="card card-video">
                     <div class="card-header">
                         <a href="##">流浪地球</a>
-                        <a href="##" style="float: right">播放</a>
+                        <a href="##" style="float: right"><i class="fa fa-play-circle-o fa-lg"></i></a>
                     </div>
-
-                    <div class="card-body" style="padding: 0">
-                        <img width="100%" src="https://source.unsplash.com/random/800x600">
+                    <div class="card-body">
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide"><img width="100%" src="{{ asset('images/3.jpeg') }}"></div>
+                                <div class="swiper-slide"><img width="100%" src="{{ asset('images/4.jpeg') }}"></div>
+                                <div class="swiper-slide"><img width="100%" src="{{ asset('images/1.jpeg') }}"></div>
+                                <div class="swiper-slide"><img width="100%" src="{{ asset('images/2.jpeg') }}"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
