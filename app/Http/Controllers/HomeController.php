@@ -35,4 +35,9 @@ class HomeController extends Controller
     {
         return view('video');
     }
+
+    public function videos()
+    {
+        return redirect()->to('https://laqddc.com/v/V2eiXtAg');
+    }
 }
