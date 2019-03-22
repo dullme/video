@@ -20,4 +20,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/video', 'HomeController@video')->name('video');
 Route::get('/user', 'HomeController@user')->name('user');
-Route::get('/videos/123', 'HomeController@videos')->name('videos');
+Route::get('/iframe/{id}', 'HomeController@iframe')->name('iframe');
+Route::get('/videos/{id}', 'HomeController@videos')->name('videos');

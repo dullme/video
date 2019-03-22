@@ -10703,21 +10703,21 @@ footer nav a:hover {
   color: #ffffff;
 }
 
-.card {
+.video-lists .card {
   border: none;
   border-radius: 0;
 }
 
-.card .card-body {
+.video-lists .card .card-body {
   padding: 0;
 }
 
-.card-header {
+.video-lists .card-header {
   background-color: unset;
   border-bottom: none;
 }
 
-.card-video {
+.video-lists .card-video {
   margin-bottom: 1rem;
 }
 

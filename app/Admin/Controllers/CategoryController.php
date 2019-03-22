@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\User;
+use App\Category;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -10,7 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class UserController extends Controller
+class CategoryController extends Controller
 {
     use HasResourceActions;
 
@@ -23,7 +23,7 @@ class UserController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('会员管理')
+            ->header('视频分类')
             ->description('')
             ->body($this->grid());
     }
@@ -79,22 +79,20 @@ class UserController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new User);
+        $grid = new Grid(new Category);
 
         $grid->id('ID');
-        $grid->username('用户名');
-        $grid->remarks('备注');
-        $grid->expire_at('有效期');
-        $grid->first_login('激活时间');
+        $grid->name('分类名称')->editable();
+        $grid->status('是否显示')->switch([
+            'on'  => ['value' => 1, 'text' => '显示', 'color' => 'success'],
+            'off' => ['value' => 0, 'text' => '隐藏', 'color' => 'default'],
+        ]);
         $grid->created_at('添加时间');
-        $grid->filter(function ($filter){
-            $filter->disableIdFilter();
-            $filter->like('username', '用户名');
-            $filter->like('remarks', '备注');
-            $filter->between('expire_at', '有效期')->datetime();
-            $filter->between('created_at', '添加时间')->datetime();
-        });
+
+        $grid->disableRowSelector();
+        $grid->disableActions();
         $grid->disableExport();
+        $grid->disableTools();
 
         return $grid;
     }
@@ -107,13 +105,11 @@ class UserController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(User::findOrFail($id));
+        $show = new Show(Category::findOrFail($id));
 
-        $show->id('Id');
-        $show->username('用户名');
-        $show->remarks('备注');
-        $show->expire_at('有效期');
-        $show->first_login('激活时间');
+        $show->id('ID');
+        $show->name('分类名称');
+        $show->status('是否显示');
         $show->created_at('添加时间');
 
         return $show;
@@ -126,25 +122,13 @@ class UserController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new User);
+        $form = new Form(new Category);
 
-        $form->text('username', '用户名');
-        $form->text('remarks', '备注');
-        $form->datetime('expire_at', '有效期')->default(date('Y-m-d H:i:s'));
-        $form->password('password', '密码')->rules('required|confirmed')
-            ->default(function ($form) {
-                return $form->model()->password;
-            });
-        $form->password('password_confirmation', '确认密码')->rules('required')
-            ->default(function ($form) {
-                return $form->model()->password;
-            });
-        $form->ignore(['password_confirmation']);
-        $form->saving(function (Form $form) {
-            if ($form->password && $form->model()->password != $form->password) {
-                $form->password = bcrypt($form->password);
-            }
-        });
+        $form->text('name', '分类名称');
+        $form->switch('status', '是否显示	')->states([
+            'on'  => ['value' => 1, 'text' => '显示', 'color' => 'success'],
+            'off' => ['value' => 0, 'text' => '隐藏', 'color' => 'default'],
+        ]);
 
         return $form;
     }

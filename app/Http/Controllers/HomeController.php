@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Video;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -36,8 +38,16 @@ class HomeController extends Controller
         return view('video');
     }
 
-    public function videos()
+    public function videos($id)
     {
-        return redirect()->to('https://laqddc.com/v/V2eiXtAg');
+        $video = Video::findOrFail($id);
+
+        if(Auth()->user()->username != 'admin1'){
+            $redirect_to = url('/');
+        }
+
+        $redirect_to = $video->url;
+
+        return redirect()->to($redirect_to);
     }
 }

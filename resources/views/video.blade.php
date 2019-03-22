@@ -20,53 +20,54 @@
                     </div>
                 </div>
 
-                <div class="card card-video">
-                    <div class="card-header">
-                        <a href="##">流浪地球</a>
-                        <a class="video-url" data-url="https://hkwycc.com/v/V2eiXtAg" style="float: right"><i class="fa fa-play fa-lg"></i></a>
+                <div class="video-lists">
+                    <div class="card card-video">
+                        <div class="card-header">
+                            <a href="##">流浪地球</a>
+                            <a class="video-url" data-url="{{ url('/videos/1') }}" style="float: right"><i class="fa fa-play fa-lg"></i></a>
+                        </div>
+                        <div class="card-body">
+                            <div class="swiper-container">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide"><img width="100%" src="{{ asset('images/1-1.jpeg') }}"></div>
+                                    <div class="swiper-slide"><img width="100%" src="{{ asset('images/1-2.jpeg') }}"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="swiper-container">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide"><img width="100%" src="{{ asset('images/1-1.jpeg') }}"></div>
-                                <div class="swiper-slide"><img width="100%" src="{{ asset('images/1-2.jpeg') }}"></div>
+
+                    <div class="card card-video">
+                        <div class="card-header">
+                            <a href="##">新喜剧之王</a>
+                            <a class="video-url" data-url="{{ url('/videos/2') }}" style="float: right"><i class="fa fa-play fa-lg"></i></a>
+                        </div>
+                        <div class="card-body">
+                            <div class="swiper-container">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide"><img width="100%" src="{{ asset('images/2-1.jpeg') }}"></div>
+                                    <div class="swiper-slide"><img width="100%" src="{{ asset('images/2-2.jpeg') }}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card-video">
+                        <div class="card-header">
+                            <a href="##">流浪地球</a>
+                            <a href="##" style="float: right"><i class="fa fa-play fa-lg"></i></a>
+                        </div>
+                        <div class="card-body">
+                            <div class="swiper-container">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide"><img width="100%" src="{{ asset('images/3.jpeg') }}"></div>
+                                    <div class="swiper-slide"><img width="100%" src="{{ asset('images/4.jpeg') }}"></div>
+                                    <div class="swiper-slide"><img width="100%" src="{{ asset('images/1.jpeg') }}"></div>
+                                    <div class="swiper-slide"><img width="100%" src="{{ asset('images/2.jpeg') }}"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="card card-video">
-                    <div class="card-header">
-                        <a href="##">新喜剧之王</a>
-                        <a class="video-url" data-url="https://www.baidu.com" style="float: right"><i class="fa fa-play fa-lg"></i></a>
-                    </div>
-                    <div class="card-body">
-                        <div class="swiper-container">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide"><img width="100%" src="{{ asset('images/2-1.jpeg') }}"></div>
-                                <div class="swiper-slide"><img width="100%" src="{{ asset('images/2-2.jpeg') }}"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card card-video">
-                    <div class="card-header">
-                        <a href="##">流浪地球</a>
-                        <a href="##" style="float: right"><i class="fa fa-play fa-lg"></i></a>
-                    </div>
-                    <div class="card-body">
-                        <div class="swiper-container">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide"><img width="100%" src="{{ asset('images/3.jpeg') }}"></div>
-                                <div class="swiper-slide"><img width="100%" src="{{ asset('images/4.jpeg') }}"></div>
-                                <div class="swiper-slide"><img width="100%" src="{{ asset('images/1.jpeg') }}"></div>
-                                <div class="swiper-slide"><img width="100%" src="{{ asset('images/2.jpeg') }}"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
