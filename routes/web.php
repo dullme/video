@@ -22,3 +22,4 @@ Route::get('/video', 'HomeController@video')->name('video');
 Route::get('/user', 'HomeController@user')->name('user');
 Route::get('/iframe/{id}', 'HomeController@iframe')->name('iframe');
 Route::get('/videos/{id}', 'HomeController@videos')->name('videos');
+Route::get('/videos-list/{id}', 'HomeController@videosList');

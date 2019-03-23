@@ -97,8 +97,8 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/swiper.min.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 
     <script>
         $(function () {
