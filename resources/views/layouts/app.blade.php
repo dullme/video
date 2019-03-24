@@ -17,6 +17,7 @@
     <link href="{{ asset('css/swiper.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('style')
 </head>
 <body>
     <div id="app">
@@ -71,31 +72,9 @@
             {{--</div>--}}
         {{--</nav>--}}
 
-        @if(config('announcement') != 'null')
-        <div class="scroll_news" style="vertical-align: middle;padding: 10px 0">
-            <marquee scrollamount="3" scrolldelay="0" direction="left" onmouseout="this.start()" onstart="this.firstChild.innerHTML+=this.firstChild.innerHTML;" onmouseover="this.stop()">
-                <span class="text-danger">{{ config('announcement') }}</span>
-            </marquee>
-        </div>
-        @endif
-
-        <main class="py-4" style="margin-bottom: 2rem">
+        <main style="margin-bottom: 5rem">
             @yield('content')
         </main>
-
-        <footer>
-            <nav id="homeBar">
-                <a href="{{ url('/home') }}">
-                    <span><i class="fa fa-heartbeat fa-lg"></i><br />精品推荐</span>
-                </a>
-                <a href="{{ url('/video') }}">
-                    <span><i class="fa fa-youtube-play fa-lg"></i><br />视频中心</span>
-                </a>
-                <a href="{{ url('/user') }}">
-                    <span><i class="fa fa-user-circle-o fa-lg"></i><br />我的信息</span>
-                </a>
-            </nav>
-        </footer>
     </div>
 
     <!-- Scripts -->
@@ -105,7 +84,12 @@
     <script>
         $(function () {
             var currentMenu = $('#homeBar a[href="'+window.location.origin + window.location.pathname+'"]:first');
-            if (currentMenu) currentMenu.addClass('active');
+            if(currentMenu.length == 0){
+                $('#home-url').addClass('active');
+            }
+            if (currentMenu){
+                currentMenu.addClass('active');
+            }
             var mySwiper = new Swiper ('.swiper-container', {
                 // loop: true,
                 // autoplay: {

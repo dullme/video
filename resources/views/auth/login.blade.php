@@ -1,11 +1,29 @@
 @extends('layouts.app')
 
+@section('style')
+<style>
+    body{
+        overflow:hidden;
+    }
+
+    body #app{
+        position:absolute;
+        width:100%;
+        height:100%;
+        background-image:url('http://video.test/storage/1-1.jpeg');
+        background-repeat: no-repeat;
+        background-size:100% 100%;
+    }
+</style>
+@endsection
+
 @section('content')
-<div class="container">
+
+<div class="py-4 container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+                <div class="card-header">登陆</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
@@ -44,6 +62,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     登陆
                                 </button>
+                                <a style="margin-left: 10px;" href="{{ url('/register') }}">去注册</a>
                             </div>
                         </div>
                     </form>

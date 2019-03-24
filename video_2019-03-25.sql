@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.22)
 # Database: video
-# Generation Time: 2019-03-24 15:35:13 +0000
+# Generation Time: 2019-03-24 16:16:00 +0000
 # ************************************************************
 
 
@@ -46,7 +46,8 @@ VALUES
 	(2,'appid','XVxcxxrxxVcCC5C6A88CAEC21FA3C93E','充值的 appid','2019-03-24 20:40:20','2019-03-24 22:03:00'),
 	(3,'secret_key','asdasdsad','充值的 secretKey','2019-03-24 20:40:42','2019-03-24 20:40:42'),
 	(4,'alipay_real_name','*中山','收款支付宝实名','2019-03-24 22:02:34','2019-03-24 22:02:34'),
-	(5,'announcement','超经典科幻大片重启！百分百必看','公告为 null 时不显示，否则显示输入的内容','2019-03-24 23:16:53','2019-03-24 23:18:09');
+	(5,'announcement','超经典科幻大片重启！百分百必看','公告为 null 时不显示，否则显示输入的内容','2019-03-24 23:16:53','2019-03-24 23:18:09'),
+	(6,'login_image','http://video.test/storage/1-1.jpeg','登陆注册页背景图片','2019-03-24 23:38:25','2019-03-24 23:41:11');
 
 /*!40000 ALTER TABLE `admin_config` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -78,18 +79,19 @@ VALUES
 	(1,0,1,'首页','fa-bar-chart','/',NULL,NULL,'2018-10-06 03:44:17'),
 	(2,0,9,'系统管理','fa-tasks',NULL,NULL,NULL,'2019-03-24 23:14:42'),
 	(3,2,10,'管理员','fa-users','auth/users',NULL,NULL,'2019-03-24 23:14:42'),
-	(4,2,12,'角色','fa-user','auth/roles',NULL,NULL,'2019-03-24 23:14:42'),
-	(5,2,13,'权限','fa-ban','auth/permissions',NULL,NULL,'2019-03-24 23:14:42'),
-	(6,2,14,'菜单','fa-bars','auth/menu',NULL,NULL,'2019-03-24 23:14:42'),
-	(7,2,15,'操作日志','fa-history','auth/logs',NULL,NULL,'2019-03-24 23:14:42'),
+	(4,2,13,'角色','fa-user','auth/roles',NULL,NULL,'2019-03-24 23:40:36'),
+	(5,2,14,'权限','fa-ban','auth/permissions',NULL,NULL,'2019-03-24 23:40:36'),
+	(6,2,15,'菜单','fa-bars','auth/menu',NULL,NULL,'2019-03-24 23:40:36'),
+	(7,2,16,'操作日志','fa-history','auth/logs',NULL,NULL,'2019-03-24 23:40:36'),
 	(8,0,2,'会员管理','fa-bars','user',NULL,'2019-03-23 14:44:16','2019-03-23 14:44:19'),
 	(9,0,3,'视频管理','fa-bars',NULL,NULL,'2019-03-23 14:47:02','2019-03-23 14:47:45'),
 	(10,9,4,'视频分类','fa-bars','category',NULL,'2019-03-23 14:47:20','2019-03-23 14:47:45'),
 	(11,9,5,'视频中心','fa-bars','video',NULL,'2019-03-23 14:47:33','2019-03-23 14:47:45'),
 	(12,0,6,'付款管理','fa-bars','project',NULL,'2019-03-24 19:37:03','2019-03-24 23:14:42'),
-	(13,2,11,'系统配置','fa-toggle-on','config',NULL,'2019-03-24 20:01:44','2019-03-24 23:14:42'),
+	(13,2,12,'系统配置','fa-toggle-on','config',NULL,'2019-03-24 20:01:44','2019-03-24 23:40:36'),
 	(14,0,7,'意见建议','fa-bars','suggest',NULL,'2019-03-24 20:09:18','2019-03-24 23:14:42'),
-	(15,0,8,'充值管理','fa-bars','recharge',NULL,'2019-03-24 22:50:17','2019-03-24 23:14:42');
+	(15,0,8,'充值管理','fa-bars','recharge',NULL,'2019-03-24 22:50:17','2019-03-24 23:14:42'),
+	(16,2,11,'文件管理','fa-file','media',NULL,'2019-03-24 23:39:44','2019-03-24 23:40:36');
 
 /*!40000 ALTER TABLE `admin_menu` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -455,7 +457,28 @@ VALUES
 	(335,1,'admin/video/1','PUT','127.0.0.1','{\"hot\":\"on\",\"_token\":\"6NwyuXMYF0zyhhe2Us5ZnV6m9YsgKbwxPFZZw8pP\",\"_method\":\"PUT\"}','2019-03-24 23:26:37','2019-03-24 23:26:37'),
 	(336,1,'admin/video/3','PUT','127.0.0.1','{\"hot\":\"on\",\"_token\":\"6NwyuXMYF0zyhhe2Us5ZnV6m9YsgKbwxPFZZw8pP\",\"_method\":\"PUT\"}','2019-03-24 23:27:46','2019-03-24 23:27:46'),
 	(337,1,'admin/video/2','PUT','127.0.0.1','{\"hot\":\"on\",\"_token\":\"6NwyuXMYF0zyhhe2Us5ZnV6m9YsgKbwxPFZZw8pP\",\"_method\":\"PUT\"}','2019-03-24 23:27:47','2019-03-24 23:27:47'),
-	(338,1,'admin/video','GET','127.0.0.1','[]','2019-03-24 23:34:25','2019-03-24 23:34:25');
+	(338,1,'admin/video','GET','127.0.0.1','[]','2019-03-24 23:34:25','2019-03-24 23:34:25'),
+	(339,1,'admin/config','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-24 23:37:42','2019-03-24 23:37:42'),
+	(340,1,'admin/config/create','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-24 23:37:43','2019-03-24 23:37:43'),
+	(341,1,'admin/config','POST','127.0.0.1','{\"name\":\"login_image\",\"value\":null,\"description\":\"\\u767b\\u9646\\u6ce8\\u518c\\u9875\\u80cc\\u666f\\u56fe\\u7247\",\"_token\":\"6NwyuXMYF0zyhhe2Us5ZnV6m9YsgKbwxPFZZw8pP\",\"_previous_\":\"http:\\/\\/video.test\\/admin\\/config\"}','2019-03-24 23:38:23','2019-03-24 23:38:23'),
+	(342,1,'admin/config/create','GET','127.0.0.1','[]','2019-03-24 23:38:23','2019-03-24 23:38:23'),
+	(343,1,'admin/config','POST','127.0.0.1','{\"name\":\"login_image\",\"value\":\"123\",\"description\":\"\\u767b\\u9646\\u6ce8\\u518c\\u9875\\u80cc\\u666f\\u56fe\\u7247\",\"_token\":\"6NwyuXMYF0zyhhe2Us5ZnV6m9YsgKbwxPFZZw8pP\"}','2019-03-24 23:38:25','2019-03-24 23:38:25'),
+	(344,1,'admin/config','GET','127.0.0.1','[]','2019-03-24 23:38:25','2019-03-24 23:38:25'),
+	(345,1,'admin/config','GET','127.0.0.1','[]','2019-03-24 23:40:06','2019-03-24 23:40:06'),
+	(346,1,'admin/auth/menu','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-24 23:40:12','2019-03-24 23:40:12'),
+	(347,1,'admin/auth/menu/16/edit','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-24 23:40:14','2019-03-24 23:40:14'),
+	(348,1,'admin/auth/menu/16','PUT','127.0.0.1','{\"parent_id\":\"0\",\"title\":\"\\u6587\\u4ef6\\u7ba1\\u7406\",\"icon\":\"fa-file\",\"uri\":\"media\",\"roles\":[null],\"permission\":null,\"_token\":\"6NwyuXMYF0zyhhe2Us5ZnV6m9YsgKbwxPFZZw8pP\",\"_method\":\"PUT\",\"_previous_\":\"http:\\/\\/video.test\\/admin\\/auth\\/menu\"}','2019-03-24 23:40:32','2019-03-24 23:40:32'),
+	(349,1,'admin/auth/menu','GET','127.0.0.1','[]','2019-03-24 23:40:32','2019-03-24 23:40:32'),
+	(350,1,'admin/auth/menu','POST','127.0.0.1','{\"_token\":\"6NwyuXMYF0zyhhe2Us5ZnV6m9YsgKbwxPFZZw8pP\",\"_order\":\"[{\\\"id\\\":1},{\\\"id\\\":8},{\\\"id\\\":9,\\\"children\\\":[{\\\"id\\\":10},{\\\"id\\\":11}]},{\\\"id\\\":12},{\\\"id\\\":14},{\\\"id\\\":15},{\\\"id\\\":2,\\\"children\\\":[{\\\"id\\\":3},{\\\"id\\\":16},{\\\"id\\\":13},{\\\"id\\\":4},{\\\"id\\\":5},{\\\"id\\\":6},{\\\"id\\\":7}]}]\"}','2019-03-24 23:40:36','2019-03-24 23:40:36'),
+	(351,1,'admin/auth/menu','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-24 23:40:36','2019-03-24 23:40:36'),
+	(352,1,'admin/auth/menu','GET','127.0.0.1','[]','2019-03-24 23:40:38','2019-03-24 23:40:38'),
+	(353,1,'admin/media','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-24 23:40:40','2019-03-24 23:40:40'),
+	(354,1,'admin/media/upload','POST','127.0.0.1','{\"dir\":\"\\/\",\"_token\":\"6NwyuXMYF0zyhhe2Us5ZnV6m9YsgKbwxPFZZw8pP\"}','2019-03-24 23:40:52','2019-03-24 23:40:52'),
+	(355,1,'admin/media','GET','127.0.0.1','[]','2019-03-24 23:40:52','2019-03-24 23:40:52'),
+	(356,1,'admin/config','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-24 23:41:06','2019-03-24 23:41:06'),
+	(357,1,'admin/config/6/edit','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-24 23:41:08','2019-03-24 23:41:08'),
+	(358,1,'admin/config/6','PUT','127.0.0.1','{\"name\":\"login_image\",\"value\":\"http:\\/\\/video.test\\/storage\\/1-1.jpeg\",\"description\":\"\\u767b\\u9646\\u6ce8\\u518c\\u9875\\u80cc\\u666f\\u56fe\\u7247\",\"_token\":\"6NwyuXMYF0zyhhe2Us5ZnV6m9YsgKbwxPFZZw8pP\",\"_method\":\"PUT\",\"_previous_\":\"http:\\/\\/video.test\\/admin\\/config\"}','2019-03-24 23:41:11','2019-03-24 23:41:11'),
+	(359,1,'admin/config','GET','127.0.0.1','[]','2019-03-24 23:41:11','2019-03-24 23:41:11');
 
 /*!40000 ALTER TABLE `admin_operation_log` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -488,7 +511,8 @@ VALUES
 	(3,'Login','auth.login','','/auth/login\r\n/auth/logout',NULL,NULL),
 	(4,'User setting','auth.setting','GET,PUT','/auth/setting',NULL,NULL),
 	(5,'Auth management','auth.management','','/auth/roles\r\n/auth/permissions\r\n/auth/menu\r\n/auth/logs',NULL,NULL),
-	(6,'Admin Config','ext.config',NULL,'/config*','2019-03-24 20:01:44','2019-03-24 20:01:44');
+	(6,'Admin Config','ext.config',NULL,'/config*','2019-03-24 20:01:44','2019-03-24 20:01:44'),
+	(7,'Media manager','ext.media-manager',NULL,'/media*','2019-03-24 23:39:44','2019-03-24 23:39:44');
 
 /*!40000 ALTER TABLE `admin_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -773,7 +797,8 @@ VALUES
 	(2,1,1,'240626747355',100,'PAID','2019-03-24 22:42:05','2019-03-24 22:42:05','2019-03-24 22:42:05'),
 	(3,1,1,'11466450166',100,'UNPAID',NULL,'2019-03-24 22:48:14','2019-03-24 22:48:14'),
 	(4,1,1,'1A1499504319',100,'UNPAID',NULL,'2019-03-24 22:48:36','2019-03-24 22:48:36'),
-	(5,1,4,'1U1343979667',2000,'UNPAID',NULL,'2019-03-24 22:49:44','2019-03-24 22:49:44');
+	(5,1,4,'1U1343979667',2000,'UNPAID',NULL,'2019-03-24 22:49:44','2019-03-24 22:49:44'),
+	(6,1,1,'1U1238631913',100,'UNPAID',NULL,'2019-03-25 00:05:14','2019-03-25 00:05:14');
 
 /*!40000 ALTER TABLE `recharges` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -798,7 +823,8 @@ LOCK TABLES `suggests` WRITE;
 
 INSERT INTO `suggests` (`id`, `user_id`, `content`, `created_at`, `updated_at`)
 VALUES
-	(10,1,'123123123','2019-03-24 20:37:00','2019-03-24 20:37:00');
+	(10,1,'123123123','2019-03-24 20:37:00','2019-03-24 20:37:00'),
+	(11,1,'123123','2019-03-25 00:05:22','2019-03-25 00:05:22');
 
 /*!40000 ALTER TABLE `suggests` ENABLE KEYS */;
 UNLOCK TABLES;
