@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Project;
+use App\Suggest;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -10,7 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class ProjectController extends Controller
+class SuggestController extends Controller
 {
     use HasResourceActions;
 
@@ -23,7 +23,7 @@ class ProjectController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('续费管理')
+            ->header('意见建议')
             ->description('')
             ->body($this->grid());
     }
@@ -79,15 +79,23 @@ class ProjectController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new Project);
+        $grid = new Grid(new Suggest);
 
         $grid->id('ID');
-        $grid->name('标题');
-        $grid->day('续费天数');
-        $grid->amount('续费金额')->display(function ($amount) {
-            return '¥ ' . ($amount / 100);
+        $grid->user()->username('用户名');
+        $grid->content('内容');
+        $grid->created_at('发布时间');
+
+        $grid->actions(function ($actions){
+            $actions->disableView();
+            $actions->disableEdit();
         });
-        $grid->created_at('添加时间');
+
+        $grid->disableFilter();
+        $grid->disableTools();
+        $grid->disableExport();
+        $grid->disableCreateButton();
+        $grid->disableRowSelector();
 
         return $grid;
     }
@@ -100,13 +108,12 @@ class ProjectController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(Project::findOrFail($id));
+        $show = new Show(Suggest::findOrFail($id));
 
         $show->id('ID');
-        $show->name('标题');
-        $show->day('续费天数');
-        $show->amount('续费金额');
-        $show->created_at('添加时间');
+        $show->user_id('用户名');
+        $show->content('内容');
+        $show->created_at('发布时间');
 
         return $show;
     }
@@ -118,11 +125,10 @@ class ProjectController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new Project);
+        $form = new Form(new Suggest);
 
-        $form->text('name', '标题')->rules('required');
-        $form->number('day', '续费天数')->rules('required|integer')->default(1);
-        $form->number('amount', '续费金额（分）')->rules('required|integer')->default(1);
+        $form->number('user_id', '用户名');
+        $form->textarea('content', '内容');
 
         return $form;
     }

@@ -86,7 +86,7 @@ class VideoController extends Controller
         $grid->category()->name('分类');
         $grid->name('名称');
         $grid->url('地址');
-        $grid->images('图片')->image();
+        $grid->images('图片')->gallery(['width' => 150, 'height' => 150, 'zooming' => true]);
         $grid->hot('是否推荐')->switch([
             'on'  => ['value' => 1, 'text' => '推荐', 'color' => 'success'],
             'off' => ['value' => 0, 'text' => '默认', 'color' => 'default'],

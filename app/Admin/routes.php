@@ -16,5 +16,6 @@ Route::group([
     $router->resource('project', ProjectController::class);
     $router->resource('recharge', RechargeController::class);
     $router->resource('video', VideoController::class);
+    $router->resource('suggest', SuggestController::class);
 
 });

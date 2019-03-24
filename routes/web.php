@@ -23,3 +23,6 @@ Route::get('/user', 'HomeController@user')->name('user');
 Route::get('/iframe/{id}', 'HomeController@iframe')->name('iframe');
 Route::get('/videos/{id}', 'HomeController@videos')->name('videos');
 Route::get('/videos-list/{id}', 'HomeController@videosList');
+Route::post('/suggest', 'HomeController@suggest');
+Route::post('/recharge', 'HomeController@recharge');
+Route::get('/call-back', 'HomeController@callBack');

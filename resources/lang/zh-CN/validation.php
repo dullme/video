@@ -128,8 +128,10 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'content' => [
+            'required' => '请留下您宝贵意见或建议！',
+            'min' => '请不要吝啬您的建议，最少为:min个字！',
+            'max' => '请简短您的意见或建议，最多为:max个字！',
         ],
     ],
 

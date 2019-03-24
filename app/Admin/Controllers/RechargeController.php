@@ -12,6 +12,7 @@ use Encore\Admin\Show;
 
 class RechargeController extends Controller
 {
+
     use HasResourceActions;
 
     /**
@@ -23,54 +24,11 @@ class RechargeController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Index')
-            ->description('description')
+            ->header('充值管理')
+            ->description('')
             ->body($this->grid());
     }
 
-    /**
-     * Show interface.
-     *
-     * @param mixed $id
-     * @param Content $content
-     * @return Content
-     */
-    public function show($id, Content $content)
-    {
-        return $content
-            ->header('Detail')
-            ->description('description')
-            ->body($this->detail($id));
-    }
-
-    /**
-     * Edit interface.
-     *
-     * @param mixed $id
-     * @param Content $content
-     * @return Content
-     */
-    public function edit($id, Content $content)
-    {
-        return $content
-            ->header('Edit')
-            ->description('description')
-            ->body($this->form()->edit($id));
-    }
-
-    /**
-     * Create interface.
-     *
-     * @param Content $content
-     * @return Content
-     */
-    public function create(Content $content)
-    {
-        return $content
-            ->header('Create')
-            ->description('description')
-            ->body($this->form());
-    }
 
     /**
      * Make a grid builder.
@@ -81,55 +39,35 @@ class RechargeController extends Controller
     {
         $grid = new Grid(new Recharge);
 
-        $grid->id('Id');
-        $grid->user_id('User id');
-        $grid->project_id('Project id');
-        $grid->orderNo('OrderNo');
-        $grid->amount('Amount');
-        $grid->status('Status');
-        $grid->created_at('Created at');
-        $grid->updated_at('Updated at');
+        $grid->order_no('订单编号');
+        $grid->user()->username('用户名');
+        $grid->project()->name('充值类型');
+        $grid->amount('充值金额')->display(function ($amount) {
+            return '¥ ' . ($amount / 100);
+        });
+        $grid->status('充值状态')->display(function ($status) {
+            $color = array_get(Recharge::$color, $status);
+            $status = array_get(Recharge::$status, $status);
+
+            return "<span class='badge bg-$color'>$status</span>";
+        });
+        $grid->created_at('充值时间');
+        $grid->paid_at('成功时间');
+
+        $grid->filter(function ($filter) {
+            $filter->disableIdFilter();
+            $filter->like('order_no', '订单编号');
+            $filter->between('created_at', '充值时间')->datetime();
+            $filter->between('paid_at', '成功时间')->datetime();
+            $filter->scope('status', '已支付')->where('status', 'PAID');
+        });
+
+        $grid->disableExport();
+        $grid->disableCreateButton();
+        $grid->disableRowSelector();
+        $grid->disableActions();
 
         return $grid;
     }
 
-    /**
-     * Make a show builder.
-     *
-     * @param mixed $id
-     * @return Show
-     */
-    protected function detail($id)
-    {
-        $show = new Show(Recharge::findOrFail($id));
-
-        $show->id('Id');
-        $show->user_id('User id');
-        $show->project_id('Project id');
-        $show->orderNo('OrderNo');
-        $show->amount('Amount');
-        $show->status('Status');
-        $show->created_at('Created at');
-        $show->updated_at('Updated at');
-
-        return $show;
-    }
-
-    /**
-     * Make a form builder.
-     *
-     * @return Form
-     */
-    protected function form()
-    {
-        $form = new Form(new Recharge);
-
-        $form->number('user_id', 'User id');
-        $form->number('project_id', 'Project id');
-        $form->text('orderNo', 'OrderNo');
-        $form->number('amount', 'Amount');
-        $form->text('status', 'Status');
-
-        return $form;
-    }
 }
