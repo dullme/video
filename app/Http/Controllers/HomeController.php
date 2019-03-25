@@ -14,23 +14,13 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
     {
-        $videos = Video::where('hot', 1)->where('status', 1)->get();
+        $videos = Video::where('hot', 1)->where('status', 1)->orderBy('created_at', 'DESC')->get();
 
         return view('home', compact('videos'));
     }
@@ -60,7 +50,7 @@ class HomeController extends Controller
 
     public function videosList($id)
     {
-        $videos_list = Video::where('category_id', $id)->where('status', 1)->simplePaginate(3);
+        $videos_list = Video::where('category_id', $id)->where('status', 1)->orderBy('created_at', 'DESC')->simplePaginate(300);
 
         return response()->json($videos_list);
     }

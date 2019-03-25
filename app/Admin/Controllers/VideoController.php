@@ -82,6 +82,8 @@ class VideoController extends Controller
     {
         $grid = new Grid(new Video);
 
+        $grid->model()->orderBy('created_at', 'DESC');
+
         $grid->id('ID');
         $grid->category()->name('分类');
         $grid->name('名称');

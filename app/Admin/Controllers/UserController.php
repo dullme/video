@@ -4,14 +4,18 @@ namespace App\Admin\Controllers;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
     use HasResourceActions;
 
     /**
@@ -69,7 +73,7 @@ class UserController extends Controller
         return $content
             ->header('新增')
             ->description('')
-            ->body($this->form());
+            ->body($this->createForm());
     }
 
     /**
@@ -83,16 +87,32 @@ class UserController extends Controller
 
         $grid->id('ID');
         $grid->username('用户名');
-        $grid->remarks('备注');
+        $grid->type('账号来源')->display(function ($type) {
+            return $type == 0 ? '主动注册' : '后台生成';
+        });
+        $grid->real_password('初始密码')->display(function ($real_password) {
+            return is_null($real_password) ? '-' : $real_password;
+        });
+        $grid->column('status', '有效期')->display(function () {
+            if(is_null($this->first_login)){
+                return "<span class='badge bg-gray'>未激活</span>";
+            }elseif ($this->expire_at > Carbon::now()){
+                return "<span class='badge bg-green'>未到期</span>";
+            }else{
+                return "<span class='badge bg-red'>已过期</span>";
+            }
+        });
         $grid->expire_at('有效期');
         $grid->first_login('激活时间');
         $grid->created_at('添加时间');
-        $grid->filter(function ($filter){
+        $grid->remarks('备注');
+        $grid->filter(function ($filter) {
             $filter->disableIdFilter();
             $filter->like('username', '用户名');
             $filter->like('remarks', '备注');
             $filter->between('expire_at', '有效期')->datetime();
             $filter->between('created_at', '添加时间')->datetime();
+            $filter->scope('type', '后台生成')->where('type', 1);
         });
         $grid->disableExport();
 
@@ -142,10 +162,65 @@ class UserController extends Controller
         $form->ignore(['password_confirmation']);
         $form->saving(function (Form $form) {
             if ($form->password && $form->model()->password != $form->password) {
-                $form->password = bcrypt($form->password);
+                $form->password = md5($form->password);
             }
         });
 
         return $form;
+    }
+
+    protected function createForm()
+    {
+        $form = new Form(new User);
+
+        $form->number('number', '新增用户数量')->rules('required|integer|min:1|max:1000')->default(500);
+        $form->number('validity_period', '有效期限/天')->rules('required|integer|min:1')->default(3);
+        $form->text('remarks', '备注')->rules('required|string|min:1');
+
+        $form->tools(function (Form\Tools $tools) {
+            $tools->disableDelete();
+            $tools->disableView();
+        });
+
+        $form->disableViewCheck();
+        $form->disableEditingCheck();
+
+        return $form;
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'number'          => 'required|integer|min:1|max:100000',
+            'validity_period' => 'required|integer|min:1',
+            'remarks' => 'required|string|min:1',
+        ]);
+        $datetime = Carbon::now()->toDateTimeString();
+        for ($i = 0; $i < $request->get('number'); $i++) {
+            $username = makeAccount();
+            $password = random_int(100000, 999999);
+            $data[$i]['username'] = $username;
+            $data[$i]['nickname'] = $username;
+            $data[$i]['password'] = md5($password);
+            $data[$i]['real_password'] = $password;
+            $data[$i]['remarks'] = $request->get('remarks');
+            $data[$i]['created_at'] = $datetime;
+            $data[$i]['updated_at'] = $datetime;
+            $data[$i]['type'] = 1;
+            $data[$i]['validity_period'] = $request->get('validity_period');
+        }
+
+        $data = collect($data)->unique();
+        $username_list = $data->pluck('username');
+
+        $users = User::whereIn('username', $username_list->toArray())->pluck('username');
+        if(count($users)){
+            $data = $data->whereNotIn('username', $users);
+        }
+
+
+        User::insert($data->toArray());
+        $count = count($data);
+        admin_toastr("创建成功{$count}个账号", 'success');
     }
 }

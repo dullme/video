@@ -27,5 +27,9 @@ class AppServiceProvider extends ServiceProvider
         if (class_exists(Config::class)) {
             Config::load();
         }
+
+        \Auth::provider('self-eloquent', function ($app, $config) {
+            return New SelfEloquentUserProvider($app['hash'], $config['model']);
+        });
     }
 }
