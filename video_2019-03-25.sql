@@ -5,9 +5,9 @@
 # https://www.sequelpro.com/
 # https://github.com/sequelpro/sequelpro
 #
-# Host: 127.0.0.1 (MySQL 5.7.22)
-# Database: video
-# Generation Time: 2019-03-24 16:16:00 +0000
+# Host: 127.0.0.1 (MySQL 8.0.12)
+# Database: xiuxiu
+# Generation Time: 2019-03-25 09:27:17 +0000
 # ************************************************************
 
 
@@ -28,9 +28,9 @@ DROP TABLE IF EXISTS `admin_config`;
 
 CREATE TABLE `admin_config` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `value` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -62,10 +62,10 @@ CREATE TABLE `admin_menu` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) NOT NULL DEFAULT '0',
   `order` int(11) NOT NULL DEFAULT '0',
-  `title` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `icon` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `uri` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `permission` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `icon` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uri` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `permission` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -83,15 +83,16 @@ VALUES
 	(5,2,14,'权限','fa-ban','auth/permissions',NULL,NULL,'2019-03-24 23:40:36'),
 	(6,2,15,'菜单','fa-bars','auth/menu',NULL,NULL,'2019-03-24 23:40:36'),
 	(7,2,16,'操作日志','fa-history','auth/logs',NULL,NULL,'2019-03-24 23:40:36'),
-	(8,0,2,'会员管理','fa-bars','user',NULL,'2019-03-23 14:44:16','2019-03-23 14:44:19'),
-	(9,0,3,'视频管理','fa-bars',NULL,NULL,'2019-03-23 14:47:02','2019-03-23 14:47:45'),
-	(10,9,4,'视频分类','fa-bars','category',NULL,'2019-03-23 14:47:20','2019-03-23 14:47:45'),
-	(11,9,5,'视频中心','fa-bars','video',NULL,'2019-03-23 14:47:33','2019-03-23 14:47:45'),
 	(12,0,6,'付款管理','fa-bars','project',NULL,'2019-03-24 19:37:03','2019-03-24 23:14:42'),
 	(13,2,12,'系统配置','fa-toggle-on','config',NULL,'2019-03-24 20:01:44','2019-03-24 23:40:36'),
 	(14,0,7,'意见建议','fa-bars','suggest',NULL,'2019-03-24 20:09:18','2019-03-24 23:14:42'),
-	(15,0,8,'充值管理','fa-bars','recharge',NULL,'2019-03-24 22:50:17','2019-03-24 23:14:42'),
-	(16,2,11,'文件管理','fa-file','media',NULL,'2019-03-24 23:39:44','2019-03-24 23:40:36');
+	(16,2,11,'文件管理','fa-file','media',NULL,'2019-03-24 23:39:44','2019-03-24 23:40:36'),
+	(17,0,2,'会员管理','fa-user','user',NULL,'2019-03-22 11:30:42','2019-03-22 11:30:47'),
+	(18,0,3,'视频管理','fa-video-camera',NULL,NULL,'2019-03-22 13:36:43','2019-03-22 13:42:33'),
+	(19,0,6,'充值记录','fa-cc-visa','recharge',NULL,'2019-03-22 13:37:21','2019-03-22 13:42:27'),
+	(20,18,4,'视频分类','fa-list-ul','category',NULL,'2019-03-22 13:38:19','2019-03-22 13:42:27'),
+	(21,0,7,'充值选项','fa-cny','recharge',NULL,'2019-03-22 13:39:02','2019-03-22 13:42:27'),
+	(22,18,5,'视频中心','fa-camera-retro','video',NULL,'2019-03-22 13:42:16','2019-03-22 13:42:27');
 
 /*!40000 ALTER TABLE `admin_menu` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -105,10 +106,10 @@ DROP TABLE IF EXISTS `admin_operation_log`;
 CREATE TABLE `admin_operation_log` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `method` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ip` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `input` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `input` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -478,7 +479,39 @@ VALUES
 	(356,1,'admin/config','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-24 23:41:06','2019-03-24 23:41:06'),
 	(357,1,'admin/config/6/edit','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-24 23:41:08','2019-03-24 23:41:08'),
 	(358,1,'admin/config/6','PUT','127.0.0.1','{\"name\":\"login_image\",\"value\":\"http:\\/\\/video.test\\/storage\\/1-1.jpeg\",\"description\":\"\\u767b\\u9646\\u6ce8\\u518c\\u9875\\u80cc\\u666f\\u56fe\\u7247\",\"_token\":\"6NwyuXMYF0zyhhe2Us5ZnV6m9YsgKbwxPFZZw8pP\",\"_method\":\"PUT\",\"_previous_\":\"http:\\/\\/video.test\\/admin\\/config\"}','2019-03-24 23:41:11','2019-03-24 23:41:11'),
-	(359,1,'admin/config','GET','127.0.0.1','[]','2019-03-24 23:41:11','2019-03-24 23:41:11');
+	(359,1,'admin/config','GET','127.0.0.1','[]','2019-03-24 23:41:11','2019-03-24 23:41:11'),
+	(360,1,'admin','GET','127.0.0.1','[]','2019-03-25 13:37:58','2019-03-25 13:37:58'),
+	(361,1,'admin','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 13:38:01','2019-03-25 13:38:01'),
+	(362,1,'admin/project','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 13:38:03','2019-03-25 13:38:03'),
+	(363,1,'admin/recharge','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 13:38:04','2019-03-25 13:38:04'),
+	(364,1,'admin/suggest','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 13:38:05','2019-03-25 13:38:05'),
+	(365,1,'admin/suggest','GET','127.0.0.1','[]','2019-03-25 13:38:06','2019-03-25 13:38:06'),
+	(366,1,'admin','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 13:38:12','2019-03-25 13:38:12'),
+	(367,1,'admin','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 13:38:14','2019-03-25 13:38:14'),
+	(368,1,'admin','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 13:38:15','2019-03-25 13:38:15'),
+	(369,1,'admin/project','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 13:38:15','2019-03-25 13:38:15'),
+	(370,1,'admin/project','GET','127.0.0.1','[]','2019-03-25 13:38:35','2019-03-25 13:38:35'),
+	(371,1,'admin/category','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 13:38:37','2019-03-25 13:38:37'),
+	(372,1,'admin/video','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 13:38:38','2019-03-25 13:38:38'),
+	(373,1,'admin/video','GET','127.0.0.1','[]','2019-03-25 13:41:19','2019-03-25 13:41:19'),
+	(374,1,'admin','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 13:44:24','2019-03-25 13:44:24'),
+	(375,1,'admin/user','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 13:44:30','2019-03-25 13:44:30'),
+	(376,1,'admin/recharge','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 13:44:34','2019-03-25 13:44:34'),
+	(377,1,'admin/project','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 13:44:36','2019-03-25 13:44:36'),
+	(378,1,'admin/suggest','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 13:44:38','2019-03-25 13:44:38'),
+	(379,1,'admin/suggest','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 13:44:38','2019-03-25 13:44:38'),
+	(380,1,'admin/suggest','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 13:44:39','2019-03-25 13:44:39'),
+	(381,1,'admin/suggest','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 13:44:39','2019-03-25 13:44:39'),
+	(382,1,'admin/suggest','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 13:44:39','2019-03-25 13:44:39'),
+	(383,1,'admin/recharge','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 13:44:40','2019-03-25 13:44:40'),
+	(384,1,'admin/category','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 13:45:31','2019-03-25 13:45:31'),
+	(385,1,'admin/category','GET','127.0.0.1','[]','2019-03-25 17:26:45','2019-03-25 17:26:45'),
+	(386,1,'admin/video','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 17:26:48','2019-03-25 17:26:48'),
+	(387,1,'admin/recharge','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 17:26:50','2019-03-25 17:26:50'),
+	(388,1,'admin/recharge','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 17:26:53','2019-03-25 17:26:53'),
+	(389,1,'admin/config','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 17:26:55','2019-03-25 17:26:55'),
+	(390,1,'admin/media','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 17:26:56','2019-03-25 17:26:56'),
+	(391,1,'admin/project','GET','127.0.0.1','{\"_pjax\":\"#pjax-container\"}','2019-03-25 17:26:57','2019-03-25 17:26:57');
 
 /*!40000 ALTER TABLE `admin_operation_log` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -491,10 +524,10 @@ DROP TABLE IF EXISTS `admin_permissions`;
 
 CREATE TABLE `admin_permissions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `slug` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `http_method` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `http_path` text COLLATE utf8mb4_unicode_ci,
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `http_method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `http_path` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -597,8 +630,8 @@ DROP TABLE IF EXISTS `admin_roles`;
 
 CREATE TABLE `admin_roles` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `slug` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -638,11 +671,11 @@ DROP TABLE IF EXISTS `admin_users`;
 
 CREATE TABLE `admin_users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `avatar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `username` varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -667,7 +700,7 @@ DROP TABLE IF EXISTS `categories`;
 
 CREATE TABLE `categories` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1显示;0不显示',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -702,7 +735,7 @@ DROP TABLE IF EXISTS `migrations`;
 
 CREATE TABLE `migrations` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -732,8 +765,8 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `password_resets`;
 
 CREATE TABLE `password_resets` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   KEY `password_resets_email_index` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -747,7 +780,7 @@ DROP TABLE IF EXISTS `projects`;
 
 CREATE TABLE `projects` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `day` int(11) NOT NULL,
   `amount` bigint(20) unsigned NOT NULL COMMENT '金额',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -779,9 +812,9 @@ CREATE TABLE `recharges` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `project_id` int(10) unsigned NOT NULL,
-  `order_no` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '订单编号',
+  `order_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '订单编号',
   `amount` bigint(20) unsigned NOT NULL COMMENT '充值金额',
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '充值状态',
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '充值状态',
   `paid_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -812,7 +845,7 @@ DROP TABLE IF EXISTS `suggests`;
 CREATE TABLE `suggests` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL COMMENT '会员ID',
-  `content` text COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '意见',
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '意见',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -837,13 +870,13 @@ DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nickname` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remarks` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '备注',
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '备注',
   `first_login` timestamp NULL DEFAULT NULL,
   `expire_at` timestamp NULL DEFAULT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -869,9 +902,9 @@ DROP TABLE IF EXISTS `videos`;
 CREATE TABLE `videos` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `category_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `images` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `images` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `hot` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1推荐;0不推荐',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1显示;0不显示',
   `created_at` timestamp NULL DEFAULT NULL,
