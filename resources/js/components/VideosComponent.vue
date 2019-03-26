@@ -7,14 +7,15 @@
                 <div id="video-class" style="margin-top: 1rem;overflow: auto;overflow-x:hidden">
                     <div class="video-swiper-container">
                         <div class="swiper-wrapper" style="text-align: center">
-                            <div v-for="item in category_list" class="swiper-slide" :class="current_category == item.id ? 'active':''"><a v-on:click="getVideos(item.id)" style="cursor: pointer">{{ item.name }}</a></div>
+                            <div v-for="item in category_list" class="swiper-slide" :class="current_category == item.id ? 'active':''">
+                                <a v-on:click="getVideos(item.id)" style="cursor: pointer">{{ item.name }}</a>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="video-lists">
-
-                    <div class="no-video" v-if="videos.length == 0">
+                    <div class="no-video" v-if="videos.length == 0 && !loading">
                         <span>暂无视频</span>
                     </div>
                     <div class="card card-video" v-for="item in videos">
@@ -39,7 +40,7 @@
                     <a style="cursor: pointer" class="btn btn-default" v-on:click="more()" v-else-if="current_page != last_page">点击加载更多</a>
                 </div>
 
-                <div style="text-align: center; padding: 1rem 0" v-if="current_page == last_page">
+                <div style="text-align: center; padding: 1rem 0" v-if="current_page == last_page && videos.length !=0">
                     <span style="color: #00000012;">——————&nbsp;&nbsp;&nbsp;&nbsp;我是有底线的&nbsp;&nbsp;&nbsp;&nbsp;——————</span>
                 </div>
 
@@ -104,6 +105,11 @@
                 }
 
                 let path= "/videos-list/" + id
+
+                if(!next){
+                    this.videos = [];
+                }
+
                 if(next && (this.current_page + 1) <= this.last_page){
                     path += "/?page=" + (this.current_page + 1)
                 }

@@ -108,6 +108,8 @@
             } else {
                 $('body').css('opacity', '1');
             }
+        } else {
+            $('body').css('opacity', '1');
         }
 
         $(function () {

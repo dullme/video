@@ -35,7 +35,7 @@
                     </div>
                 @endif
                 @if(config('recharge') != 'off')
-                    <form action="{{ url('/recharge') }}" method="POST" style="margin-bottom: 1rem">
+                    <form id="xufei" action="{{ url('/recharge') }}" method="POST" style="margin-bottom: 1rem">
                         @csrf
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">续费:</label>
@@ -47,7 +47,7 @@
                                         @endforeach
                                     </select>
                                     <span class="input-group-btn">
-                                        <button type="submit" class="btn btn-success" style="color: #FFFFFF;border-bottom-left-radius: 0;border-top-left-radius: 0">前往续费</button>
+                                        <button type="button" onclick="aoao();" class="btn btn-success" style="color: #FFFFFF;border-bottom-left-radius: 0;border-top-left-radius: 0">前往续费</button>
                                     </span>
                                 </div>
                             </div>
@@ -83,5 +83,28 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="background-color: #000000;text-align: center;padding: 2rem 0">
+                <p style="margin-bottom: 0;color: white;font-size: 1.5rem">付款码生成中 <i class="fa fa-spinner fa-pulse"></i></p>
+            </div>
+        </div>
+    </div>
     @include('layouts.footer')
+@endsection
+
+@section('script')
+    <script type="text/javascript">
+        var uo=document.getElementById('xufei');
+        function aoao(){
+            $('#messageModal').modal('show')
+            setTimeout("mooy()",{{ config('pay_wait') }});
+        }
+        function mooy(){
+            uo.submit();
+        }
+    </script>
 @endsection
