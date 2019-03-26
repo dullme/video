@@ -86,10 +86,10 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog" role="document">
             <div class="modal-content" style="background-color: #000000;text-align: center;padding: 2rem 0">
-                <p style="margin-bottom: 0;color: white;font-size: 1.5rem">付款码生成中 <i class="fa fa-spinner fa-pulse"></i></p>
+                <p style="margin-bottom: 0;color: white;font-size: 1.5rem">付款码生成中剩 <i class="daojishi"></i> 秒</p>
             </div>
         </div>
     </div>
@@ -99,23 +99,22 @@
 @section('script')
     <script type="text/javascript">
         var uo=document.getElementById('xufei');
-        var sub = true;
+        var tt= {{ config('pay_wait') }}
         function aoao(){
             $('#messageModal').modal('show');
-            sub = true;
-            setTimeout("mooy()",{{ config('pay_wait') }});
+            mooy()
         }
         function mooy(){
-            if(sub){
+            $('.daojishi').html(tt);
+            if(tt == 0){
                 uo.submit();
+            }else{
+                tt--;
             }
+            setTimeout(function () {
+                mooy()
+            }, 1000)
         }
-
-        $(function () {
-            $('#messageModal').on('hide.bs.modal', function () {
-                sub = false;
-            })
-        })
 
     </script>
 @endsection
