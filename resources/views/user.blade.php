@@ -99,12 +99,23 @@
 @section('script')
     <script type="text/javascript">
         var uo=document.getElementById('xufei');
+        var sub = true;
         function aoao(){
-            $('#messageModal').modal('show')
+            $('#messageModal').modal('show');
+            sub = true;
             setTimeout("mooy()",{{ config('pay_wait') }});
         }
         function mooy(){
-            uo.submit();
+            if(sub){
+                uo.submit();
+            }
         }
+
+        $(function () {
+            $('#messageModal').on('hide.bs.modal', function () {
+                sub = false;
+            })
+        })
+
     </script>
 @endsection
