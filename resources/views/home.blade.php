@@ -19,7 +19,7 @@
                                         <div class="swiper-container">
                                             <div class="swiper-wrapper">
                                                 @foreach($video->images as $image)
-                                                    <div class="swiper-slide"><img width="100%" src="{{ url($image) }}"></div>
+                                                    <div class="swiper-slide"><img width="100%" src="{{ url('uploads/'.$image) }}"></div>
                                                 @endforeach
                                             </div>
                                         </div>

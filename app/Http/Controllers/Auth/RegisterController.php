@@ -65,7 +65,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'username' => $data['username'],
+            'username' => strtoupper($data['username']),
             'nickname' => $data['username'],
             'remarks' => '主动注册',
             'first_login' => Carbon::now(),
