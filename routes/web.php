@@ -26,4 +26,6 @@ Route::group(['middleware' => 'auth.singleLogin'], function() {
     Route::get('/call-back', 'HomeController@callBack');
 });
 
+Route::post('/notify', 'NotifyController@notify');
+
 
