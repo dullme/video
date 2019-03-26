@@ -58,7 +58,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">验证码</label>
+                            <label for="captcha" class="col-md-4 col-form-label text-md-right">验证码</label>
 
                             <div class="col-md-6">
                                 <div class="input-group">
