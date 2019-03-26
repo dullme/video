@@ -86,7 +86,7 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content" style="background-color: #000000;text-align: center;padding: 2rem 0">
                 <p style="margin-bottom: 0;color: white;font-size: 1.5rem">付款码生成中剩 <i class="daojishi"></i> 秒</p>
@@ -115,6 +115,14 @@
                 mooy()
             }, 1000)
         }
+
+        $(function () {
+            $('#messageModal').on('hide.bs.modal', function () {
+                setTimeout(function () {
+                    window.location.reload()
+                }, 150)
+            })
+        })
 
     </script>
 @endsection
