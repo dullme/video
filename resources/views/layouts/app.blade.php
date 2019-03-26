@@ -19,7 +19,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('style')
 </head>
-<body style="display: none">
+<body style="opacity: 0">
     <div id="app">
         {{--<nav class="navbar navbar-expand-md navbar-light navbar-laravel">--}}
             {{--<div class="container">--}}
@@ -106,7 +106,7 @@
             if (ua.match(/MicroMessenger/i) == "micromessenger" || ua.match(/QQ/i) == "qq") {
                 location.href="{{ url('/error') }}"
             } else {
-                $('body').css('display', 'block');
+                $('body').css('opacity', '1');
             }
         }
 
