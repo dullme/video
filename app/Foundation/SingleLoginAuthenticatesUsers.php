@@ -22,8 +22,11 @@ trait SingleLoginAuthenticatesUsers
         $this->clearLoginAttempts($request);
         #这里来做登录后的操作
         $this->singleLogin($request);
-        return $this->authenticated($request, $this->guard()->user())
-            ?: redirect()->intended($this->redirectPath());
+
+        return redirect()->to(url($this->redirectPath()));
+//
+//        return $this->authenticated($request, $this->guard()->user())
+//            ?: redirect()->intended($this->redirectPath());
     }
 
     /**
