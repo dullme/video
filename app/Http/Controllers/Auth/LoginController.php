@@ -71,8 +71,8 @@ class LoginController extends Controller
         }
 
 
-        $user = User::where('username', strtoupper($request->input('username')))->first()->makeVisible('password');
-        if(md5($request->input('password')) == $user->password){
+        $user = User::where('username', strtoupper($request->input('username')))->first();
+        if($user && md5($request->input('password')) == $user->password){
             if($user->type == 1 && $user->expire_at == null && $user->first_login == null){
                 $user->first_login = Carbon::now();
                 $user->expire_at = Carbon::now()->addDays($user->validity_period);
@@ -86,7 +86,7 @@ class LoginController extends Controller
 
             return $this->sendLoginResponse($request);
         }
-//        
+//
 //
 //        if ($this->attemptLogin($request)) {
 //

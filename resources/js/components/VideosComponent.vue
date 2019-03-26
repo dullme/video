@@ -20,9 +20,11 @@
                         <span>暂无视频</span>
                     </div>
                     <div class="card card-video" v-for="item in videos">
-                        <div class="card-header">
-                            <a href="##">{{ item.name }}</a>
-                            <a class="video-url" data-url="" style="float: right"><i class="fa fa-play fa-lg"></i></a>
+                        <div style="cursor: pointer" v-on:click="show( item.id)">
+                            <div class="card-header">
+                                <a href="##">{{ item.name }}</a>
+                                <a style="float: right"><i class="fa fa-play fa-lg"></i></a>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="swiper-container">
@@ -33,6 +35,11 @@
                         </div>
                     </div>
                 </div>
+
+                <div style="text-align: center; padding: 1rem 0" v-if="underline && videos.length != 0">
+                    <span style="color: #00000012;">——————&nbsp;&nbsp;&nbsp;&nbsp;我是有底线的&nbsp;&nbsp;&nbsp;&nbsp;——————</span>
+                </div>
+
 
             </div>
         </div>
@@ -59,6 +66,8 @@
                 next_page_url :'', //下一页
                 category_list :[],
                 loading :false,
+                is_getting :true,
+                underline : false
             }
         },
 
@@ -70,14 +79,10 @@
             this.category_list = JSON.parse(this.categories);
             this.current_category = this.category_list[0].id
             this.getVideos(this.current_category)
+            this.scroll()
         },
 
         mounted() {
-            $('.video-url').on('click', function () {
-                $('#video-modal').attr('src', this.dataset.url);
-                $('#exampleModal').modal('show')
-            })
-
             $('#exampleModal').on('hide.bs.modal', function () {
                 $('#video-modal').attr('src', '');
             })
@@ -91,27 +96,74 @@
         },
 
         methods: {
-            getVideos(id){
+            getVideos(id, next){
                 this.loading = true;
-                this.videos = [];
-                this.current_category = id;
+                if(this.current_category != id){
+                    this.current_category = id;
+                    this.videos = [];
+                }
 
                 let path= "/videos-list/" + id
+                if(next && (this.current_page + 1) <= this.per_page){
+                    path += "/?page=" + (this.current_page + 1)
+                }
 
                 axios.get(path).then(response => {
                     this.current_page = response.data.current_page //当前页
                     this.per_page = response.data.per_page //总页数
                     this.next_page_url = response.data.next_page_url //下一页
+                    if(this.current_page == this.per_page){
+                        this.underline = true;
+                    }
+
                     let videos = response.data.data;
                     videos.forEach((video) => {
                         this.videos.push(video);
                     })
                     this.loading = false;
+                    this.$nextTick(()=>{
+                        if((this.current_page + 1) <= this.per_page){
+                            this.is_getting = true;
+                        }
+                    })
                 }).catch(error => {
                     console.log(error.response.data);
                     this.loading = false;
+                    this.$nextTick(()=>{
+                        this.is_getting = true;
+                    })
                 });
             },
+
+            scroll(){
+                window.onscroll = () => {
+                    var scrollTop = 0;
+                    if(document.documentElement && document.documentElement.scrollTop) {
+                        scrollTop = document.documentElement.scrollTop;
+                    } else if(document.body) {
+                        scrollTop = document.body.scrollTop;
+                    }
+                    var clientHeight = 0;
+                    if(document.body.clientHeight && document.documentElement.clientHeight) {
+                        clientHeight = Math.min(document.body.clientHeight, document.documentElement.clientHeight);
+                    } else {
+                        clientHeight = Math.max(document.body.clientHeight, document.documentElement.clientHeight);
+                    }
+                    var getScrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+                    if(scrollTop + clientHeight == getScrollHeight) {
+                        // myVue.getIntentionList2()
+                        if(this.is_getting && (this.current_page + 1) <= this.per_page){
+                            this.is_getting = false;
+                            this.getVideos(this.current_category, true);
+                        }
+                    }
+                }
+            },
+
+            show(id){
+                $('#video-modal').attr('src', '/videos/'+id);
+                $('#exampleModal').modal('show')
+            }
 
 
         }

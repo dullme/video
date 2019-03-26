@@ -26,12 +26,14 @@
                         <span class="form-control" style="background-color: #ced4da;">{{ Auth()->user()->first_login }}</span>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="name" class="col-md-4 col-form-label text-md-right">账号到期时间:</label>
-                    <div class="col-md-6">
-                        <span class="form-control" style="background-color: #ced4da;">{{ Auth()->user()->expire_at }}</span>
+                @if(Auth()->user()->expire_at)
+                    <div class="form-group row">
+                        <label for="name" class="col-md-4 col-form-label text-md-right">账号到期时间:</label>
+                        <div class="col-md-6">
+                            <span class="form-control" style="background-color: #ced4da;">{{ Auth()->user()->expire_at }}</span>
+                        </div>
                     </div>
-                </div>
+                @endif
                 @if(config('recharge') != 'off')
                     <form action="{{ url('/recharge') }}" method="POST" style="margin-bottom: 1rem">
                         @csrf

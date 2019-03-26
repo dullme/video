@@ -20,6 +20,10 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if(is_null(Auth()->user()->expire_at) || Auth()->user()->expire_at <= Carbon::now()){
+            return redirect()->to(url('/user'));
+        }
+
         $videos = Video::where('hot', 1)->where('status', 1)->orderBy('created_at', 'DESC')->get();
 
         return view('home', compact('videos'));
@@ -34,6 +38,10 @@ class HomeController extends Controller
 
     public function video()
     {
+        if(is_null(Auth()->user()->expire_at) || Auth()->user()->expire_at <= Carbon::now()){
+            return redirect()->to(url('/user'));
+        }
+
         $categories = Category::where('status', 1)->select('id', 'name')->get();
 
         return view('video', compact('categories'));
@@ -41,6 +49,10 @@ class HomeController extends Controller
 
     public function videos($id)
     {
+        if(is_null(Auth()->user()->expire_at) || Auth()->user()->expire_at <= Carbon::now()){
+            return view('daoqi');
+        }
+
         $video = Video::findOrFail($id);
 
         $redirect_to = $video->url;
@@ -50,7 +62,7 @@ class HomeController extends Controller
 
     public function videosList($id)
     {
-        $videos_list = Video::where('category_id', $id)->where('status', 1)->orderBy('created_at', 'DESC')->simplePaginate(300);
+        $videos_list = Video::where('category_id', $id)->where('status', 1)->orderBy('created_at', 'DESC')->simplePaginate(10);
 
         return response()->json($videos_list);
     }

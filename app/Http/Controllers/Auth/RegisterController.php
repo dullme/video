@@ -68,6 +68,7 @@ class RegisterController extends Controller
             'username' => $data['username'],
             'nickname' => $data['username'],
             'remarks' => '主动注册',
+            'first_login' => Carbon::now(),
             'password' => md5($data['password']),
         ]);
     }
