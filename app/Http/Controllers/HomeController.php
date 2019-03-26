@@ -137,4 +137,9 @@ class HomeController extends Controller
     {
         return view('callBack');
     }
+
+    public function tencent()
+    {
+        return view('tencent');
+    }
 }

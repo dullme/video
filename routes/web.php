@@ -13,6 +13,8 @@
 
 Auth::routes();
 
+Route::get('/error', 'HomeController@tencent');
+
 Route::group(['middleware' => 'auth.singleLogin'], function() {
     Route::get('/', 'HomeController@index');
     Route::get('/home', 'HomeController@index')->name('home');
