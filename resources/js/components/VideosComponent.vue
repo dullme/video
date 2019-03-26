@@ -27,7 +27,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="swiper-container">
+                            <div class="swiper-container swiper-videos">
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide" v-for="image in item.images"><img width="100%" :src="'uploads/'+image"></div>
                                 </div>
@@ -122,6 +122,8 @@
                     })
                     this.loading = false;
                     this.$nextTick(()=>{
+                        var mySwiper = new Swiper('.swiper-videos')
+
                         if((this.current_page + 1) <= this.last_page){
                             this.is_getting = true;
                         }

@@ -16,7 +16,7 @@
                                 </div>
                                 @if($video->images)
                                     <div class="card-body">
-                                        <div class="swiper-container">
+                                        <div class="swiper-container swiper-hot">
                                             <div class="swiper-wrapper">
                                                 @foreach($video->images as $image)
                                                     <div class="swiper-slide"><img width="100%" src="{{ url('uploads/'.$image) }}"></div>
@@ -54,6 +54,15 @@
 
         $('#exampleModal').on('hide.bs.modal', function () {
             $('#video-modal').attr('src', '');
+        })
+        $(function () {
+            var mySwiper = new Swiper('.swiper-hot', {
+                // loop: true,
+                // autoplay: {
+                //     delay: 4000,//4秒切换一次
+                //     disableOnInteraction : false,
+                // },
+            })
         })
     </script>
 @endsection

@@ -90,13 +90,6 @@
             if (currentMenu){
                 currentMenu.addClass('active');
             }
-            var mySwiper = new Swiper ('.swiper-container', {
-                // loop: true,
-                // autoplay: {
-                //     delay: 4000,//4秒切换一次
-                //     disableOnInteraction : false,
-                // },
-            })
         })
     </script>
     @yield('script')
