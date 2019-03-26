@@ -78,6 +78,6 @@ class NotifyController
 
     public function verify($order_no, $goods_id)
     {
-        return md5(config('secret_key') + $order_no + $goods_id);
+        return md5(config('secret_key') . $order_no . $goods_id);
     }
 }
