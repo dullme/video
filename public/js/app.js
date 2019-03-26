@@ -1827,7 +1827,7 @@ __webpack_require__.r(__webpack_exports__);
       current_category: '',
       current_page: 1,
       //当前页
-      per_page: 1,
+      last_page: 1,
       //总页数
       next_page_url: '',
       //下一页
@@ -1868,18 +1868,18 @@ __webpack_require__.r(__webpack_exports__);
 
       var path = "/videos-list/" + id;
 
-      if (next && this.current_page + 1 <= this.per_page) {
+      if (next && this.current_page + 1 <= this.last_page) {
         path += "/?page=" + (this.current_page + 1);
       }
 
       axios.get(path).then(function (response) {
         _this.current_page = response.data.current_page; //当前页
 
-        _this.per_page = response.data.per_page; //总页数
+        _this.last_page = response.data.last_page; //总页数
 
         _this.next_page_url = response.data.next_page_url; //下一页
 
-        if (_this.current_page == _this.per_page) {
+        if (_this.current_page == _this.last_page) {
           _this.underline = true;
         }
 
@@ -1890,7 +1890,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.loading = false;
 
         _this.$nextTick(function () {
-          if (_this.current_page + 1 <= _this.per_page) {
+          if (_this.current_page + 1 <= _this.last_page) {
             _this.is_getting = true;
           }
         });
@@ -1927,7 +1927,7 @@ __webpack_require__.r(__webpack_exports__);
 
         if (scrollTop + clientHeight == getScrollHeight) {
           // myVue.getIntentionList2()
-          if (_this2.is_getting && _this2.current_page + 1 <= _this2.per_page) {
+          if (_this2.is_getting && _this2.current_page + 1 <= _this2.last_page) {
             _this2.is_getting = false;
 
             _this2.getVideos(_this2.current_category, true);
@@ -37080,7 +37080,9 @@ var render = function() {
                       { staticClass: "swiper-wrapper" },
                       _vm._l(item.images, function(image) {
                         return _c("div", { staticClass: "swiper-slide" }, [
-                          _c("img", { attrs: { width: "100%", src: image } })
+                          _c("img", {
+                            attrs: { width: "100%", src: "uploads/" + image }
+                          })
                         ])
                       }),
                       0

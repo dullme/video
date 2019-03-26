@@ -62,7 +62,7 @@ class HomeController extends Controller
 
     public function videosList($id)
     {
-        $videos_list = Video::where('category_id', $id)->where('status', 1)->orderBy('created_at', 'DESC')->simplePaginate(10);
+        $videos_list = Video::where('category_id', $id)->where('status', 1)->orderBy('created_at', 'DESC')->paginate(20);
 
         return response()->json($videos_list);
     }

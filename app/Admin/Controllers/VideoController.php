@@ -155,7 +155,7 @@ class VideoController extends Controller
         $form->select('category_id', '分类')->options($categories)->rules('required');
         $form->text('name', '名称')->rules('required');
         $form->url('url', '地址')->rules('required');
-        $form->multipleImage('images', '图片')->removable();
+        $form->multipleImage('images', '图片')->uniqueName()->removable();
         $form->switch('hot', '是否推荐')->states([
             'on'  => ['value' => 1, 'text' => '推荐', 'color' => 'success'],
             'off' => ['value' => 0, 'text' => '默认', 'color' => 'default'],

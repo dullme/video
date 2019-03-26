@@ -10,7 +10,7 @@
         position:absolute;
         width:100%;
         height:100%;
-        background-image:url('http://video.test/storage/1-1.jpeg');
+        background-image:url('{{ config('login_image') }}');
         background-repeat: no-repeat;
         background-size:100% 100%;
     }

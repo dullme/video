@@ -84,7 +84,7 @@ class UserController extends Controller
     protected function grid()
     {
         $grid = new Grid(new User);
-
+        $grid->model()->orderBy('created_at', 'DESC');
         $grid->id('ID');
         $grid->username('用户名');
         $grid->type('账号来源')->display(function ($type) {
@@ -94,7 +94,7 @@ class UserController extends Controller
             return is_null($real_password) ? '-' : $real_password;
         });
         $grid->column('status', '有效期')->display(function () {
-            if(is_null($this->first_login)){
+            if(is_null($this->expire_at)){
                 return "<span class='badge bg-gray'>未激活</span>";
             }elseif ($this->expire_at > Carbon::now()){
                 return "<span class='badge bg-green'>未到期</span>";
@@ -103,7 +103,7 @@ class UserController extends Controller
             }
         });
         $grid->expire_at('有效期');
-        $grid->first_login('激活时间');
+        $grid->first_login('首次登陆时间');
         $grid->created_at('添加时间');
         $grid->remarks('备注');
         $grid->filter(function ($filter) {

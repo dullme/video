@@ -29,7 +29,7 @@
                         <div class="card-body">
                             <div class="swiper-container">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide" v-for="image in item.images"><img width="100%" :src="image"></div>
+                                    <div class="swiper-slide" v-for="image in item.images"><img width="100%" :src="'uploads/'+image"></div>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                 videos :[],
                 current_category :'',
                 current_page :1, //当前页
-                per_page :1, //总页数
+                last_page :1, //总页数
                 next_page_url :'', //下一页
                 category_list :[],
                 loading :false,
@@ -104,15 +104,15 @@
                 }
 
                 let path= "/videos-list/" + id
-                if(next && (this.current_page + 1) <= this.per_page){
+                if(next && (this.current_page + 1) <= this.last_page){
                     path += "/?page=" + (this.current_page + 1)
                 }
 
                 axios.get(path).then(response => {
                     this.current_page = response.data.current_page //当前页
-                    this.per_page = response.data.per_page //总页数
+                    this.last_page = response.data.last_page //总页数
                     this.next_page_url = response.data.next_page_url //下一页
-                    if(this.current_page == this.per_page){
+                    if(this.current_page == this.last_page){
                         this.underline = true;
                     }
 
@@ -122,7 +122,7 @@
                     })
                     this.loading = false;
                     this.$nextTick(()=>{
-                        if((this.current_page + 1) <= this.per_page){
+                        if((this.current_page + 1) <= this.last_page){
                             this.is_getting = true;
                         }
                     })
@@ -152,7 +152,7 @@
                     var getScrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
                     if(scrollTop + clientHeight == getScrollHeight) {
                         // myVue.getIntentionList2()
-                        if(this.is_getting && (this.current_page + 1) <= this.per_page){
+                        if(this.is_getting && (this.current_page + 1) <= this.last_page){
                             this.is_getting = false;
                             this.getVideos(this.current_category, true);
                         }
