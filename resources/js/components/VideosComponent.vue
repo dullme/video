@@ -13,10 +13,8 @@
                 </div>
 
                 <div class="video-lists">
-                    <div class="no-video" v-if="loading">
-                        <span><i class="fa fa-spinner fa-pulse"></i></span>
-                    </div>
-                    <div class="no-video" v-else-if="videos.length == 0">
+
+                    <div class="no-video" v-if="videos.length == 0">
                         <span>暂无视频</span>
                     </div>
                     <div class="card card-video" v-for="item in videos">
@@ -36,7 +34,12 @@
                     </div>
                 </div>
 
-                <div style="text-align: center; padding: 1rem 0" v-if="underline && videos.length != 0">
+                <div style="text-align: center; padding: 1rem 0">
+                    <span class="btn btn-default" v-if="loading"><i class="fa fa-spinner fa-pulse"></i></span>
+                    <a style="cursor: pointer" class="btn btn-default" v-on:click="more()" v-else-if="current_page != last_page">点击加载更多</a>
+                </div>
+
+                <div style="text-align: center; padding: 1rem 0" v-if="current_page == last_page">
                     <span style="color: #00000012;">——————&nbsp;&nbsp;&nbsp;&nbsp;我是有底线的&nbsp;&nbsp;&nbsp;&nbsp;——————</span>
                 </div>
 
@@ -66,8 +69,6 @@
                 next_page_url :'', //下一页
                 category_list :[],
                 loading :false,
-                is_getting :true,
-                underline : false
             }
         },
 
@@ -79,7 +80,6 @@
             this.category_list = JSON.parse(this.categories);
             this.current_category = this.category_list[0].id
             this.getVideos(this.current_category)
-            this.scroll()
         },
 
         mounted() {
@@ -123,48 +123,20 @@
                     this.loading = false;
                     this.$nextTick(()=>{
                         var mySwiper = new Swiper('.swiper-videos')
-
-                        if((this.current_page + 1) <= this.last_page){
-                            this.is_getting = true;
-                        }
                     })
                 }).catch(error => {
                     console.log(error.response.data);
                     this.loading = false;
-                    this.$nextTick(()=>{
-                        this.is_getting = true;
-                    })
                 });
-            },
-
-            scroll(){
-                window.onscroll = () => {
-                    var scrollTop = 0;
-                    if(document.documentElement && document.documentElement.scrollTop) {
-                        scrollTop = document.documentElement.scrollTop;
-                    } else if(document.body) {
-                        scrollTop = document.body.scrollTop;
-                    }
-                    var clientHeight = 0;
-                    if(document.body.clientHeight && document.documentElement.clientHeight) {
-                        clientHeight = Math.min(document.body.clientHeight, document.documentElement.clientHeight);
-                    } else {
-                        clientHeight = Math.max(document.body.clientHeight, document.documentElement.clientHeight);
-                    }
-                    var getScrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
-                    if(scrollTop + clientHeight == getScrollHeight) {
-                        // myVue.getIntentionList2()
-                        if(this.is_getting && (this.current_page + 1) <= this.last_page){
-                            this.is_getting = false;
-                            this.getVideos(this.current_category, true);
-                        }
-                    }
-                }
             },
 
             show(id){
                 $('#video-modal').attr('src', '/videos/'+id);
                 $('#exampleModal').modal('show')
+            },
+
+            more(){
+                this.getVideos(this.current_category, true)
             }
 
 
