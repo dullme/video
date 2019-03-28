@@ -142,4 +142,9 @@ class HomeController extends Controller
     {
         return view('tencent');
     }
+
+    public function unpay()
+    {
+        return view('unpay');
+    }
 }

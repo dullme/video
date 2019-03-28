@@ -118,9 +118,7 @@
 
         $(function () {
             $('#messageModal').on('hide.bs.modal', function () {
-                setTimeout(function () {
-                    window.location.reload()
-                }, 150)
+                window.location.href='/unpay';
             })
         })
 
