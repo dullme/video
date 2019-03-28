@@ -1847,7 +1847,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     $('#exampleModal').on('hide.bs.modal', function () {
-      $('#video-modal').attr('src', '');
+      $('.modal-content').html('<div class="prism-player" id="player-con"></div>');
     });
     new Swiper('.video-swiper-container', {
       pagination: '.swiper-pagination',
@@ -1903,11 +1903,91 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     show: function show(id) {
+      var _this2 = this;
+
+      axios.get('/videos/' + id).then(function (response) {
+        console.log(response.data);
+
+        _this2.aliPlayer(response.data);
+      });
       $('#video-modal').attr('src', '/videos/' + id);
       $('#exampleModal').modal('show');
     },
     more: function more() {
       this.getVideos(this.current_category, true);
+    },
+    aliPlayer: function aliPlayer(url) {
+      var player = new Aliplayer({
+        "id": "player-con",
+        "source": url,
+        "width": "100%",
+        "height": "500px",
+        "autoplay": true,
+        "isLive": false,
+        "rePlay": false,
+        "playsinline": true,
+        "preload": true,
+        "controlBarVisibility": "hover",
+        "useH5Prism": true,
+        "components": [{
+          name: 'RotateMirrorComponent',
+          type: AliPlayerComponent.RotateMirrorComponent
+        }],
+        // "components": [{
+        //     "name": "1",
+        //     "type": "1",
+        //      //第一个参数是试看时长, 单位为分钟
+        //     /* 第二个参数可以传一个 Dom 字符串, 他将会替换默认的'试看已结束...'等文字 */
+        //     args: [1]
+        //   }],
+        "skinLayout": [{
+          "name": "bigPlayButton",
+          "align": "blabs",
+          "x": 30,
+          "y": 80
+        }, {
+          "name": "H5Loading",
+          "align": "cc"
+        }, {
+          "name": "infoDisplay"
+        }, {
+          "name": "thumbnail"
+        }, {
+          "name": "controlBar",
+          "align": "blabs",
+          "x": 0,
+          "y": 0,
+          "children": [{
+            "name": "progress",
+            "align": "blabs",
+            "x": 0,
+            "y": 44
+          }, {
+            "name": "playButton",
+            "align": "tl",
+            "x": 15,
+            "y": 12
+          }, {
+            "name": "timeDisplay",
+            "align": "tl",
+            "x": 10,
+            "y": 7
+          }, {
+            "name": "fullScreenButton",
+            "align": "tr",
+            "x": 10,
+            "y": 12
+          }, {
+            "name": "volume",
+            "align": "tr",
+            "x": 5,
+            "y": 10
+          }]
+        }]
+      }, function (player) {
+        player._switchLevel = 0;
+        console.log("播放器创建了。");
+      });
     }
   }
 });
@@ -37143,9 +37223,9 @@ var staticRenderFns = [
                 staticStyle: { "background-color": "#000000" }
               },
               [
-                _c("iframe", {
-                  staticStyle: { border: "none" },
-                  attrs: { id: "video-modal", src: "", width: "100%" }
+                _c("div", {
+                  staticClass: "prism-player",
+                  attrs: { id: "player-con" }
                 })
               ]
             )
@@ -49480,8 +49560,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/dullme/Code/video/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/dullme/Code/video/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/jinjialei/Code/video/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/jinjialei/Code/video/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

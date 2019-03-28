@@ -16,7 +16,10 @@
     <!-- Styles -->
     <link href="{{ asset('css/swiper.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.8.1/skins/default/aliplayer-min.css" />
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script type="text/javascript" charset="utf-8" src="https://g.alicdn.com/de/prismplayer/2.8.1/aliplayer-min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="https://player.alicdn.com/aliplayer/presentation/js/aliplayercomponents.min.js"></script>
     @yield('style')
 </head>
 <body style="opacity: 0">

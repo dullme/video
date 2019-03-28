@@ -52,7 +52,7 @@
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content" style="background-color: #000000">
-                    <iframe id="video-modal" src="" width="100%" style="border: none"></iframe>
+                    <div class="prism-player" id="player-con"></div>
                 </div>
             </div>
         </div>
@@ -85,7 +85,7 @@
 
         mounted() {
             $('#exampleModal').on('hide.bs.modal', function () {
-                $('#video-modal').attr('src', '');
+                $('.modal-content').html('<div class="prism-player" id="player-con"></div>');
             })
 
             new Swiper ('.video-swiper-container',  {
@@ -137,12 +137,104 @@
             },
 
             show(id){
+                axios.get('/videos/'+id).then(response=>{
+                    console.log(response.data)
+                    this.aliPlayer(response.data)
+                })
+
                 $('#video-modal').attr('src', '/videos/'+id);
                 $('#exampleModal').modal('show')
             },
 
             more(){
                 this.getVideos(this.current_category, true)
+            },
+
+            aliPlayer(url){
+                var player = new Aliplayer({
+                        "id": "player-con",
+                        "source": url,
+                        "width": "100%",
+                        "height": "500px",
+                        "autoplay": true,
+                        "isLive": false,
+                        "rePlay": false,
+                        "playsinline": true,
+                        "preload": true,
+                        "controlBarVisibility": "hover",
+                        "useH5Prism": true,
+                        "components": [{
+                            name: 'RotateMirrorComponent',
+                            type: AliPlayerComponent.RotateMirrorComponent
+                        }],
+                        // "components": [{
+                        //     "name": "1",
+                        //     "type": "1",
+                        //      //第一个参数是试看时长, 单位为分钟
+                        //     /* 第二个参数可以传一个 Dom 字符串, 他将会替换默认的'试看已结束...'等文字 */
+                        //     args: [1]
+                        //   }],
+                        "skinLayout": [
+                            {
+                                "name": "bigPlayButton",
+                                "align": "blabs",
+                                "x": 30,
+                                "y": 80
+                            },
+                            {
+                                "name": "H5Loading",
+                                "align": "cc"
+                            },
+                            {
+                                "name": "infoDisplay"
+                            },
+                            {
+                                "name": "thumbnail"
+                            },
+                            {
+                                "name": "controlBar",
+                                "align": "blabs",
+                                "x": 0,
+                                "y": 0,
+                                "children": [
+                                    {
+                                        "name": "progress",
+                                        "align": "blabs",
+                                        "x": 0,
+                                        "y": 44
+                                    },
+                                    {
+                                        "name": "playButton",
+                                        "align": "tl",
+                                        "x": 15,
+                                        "y": 12
+                                    },
+                                    {
+                                        "name": "timeDisplay",
+                                        "align": "tl",
+                                        "x": 10,
+                                        "y": 7
+                                    },
+                                    {
+                                        "name": "fullScreenButton",
+                                        "align": "tr",
+                                        "x": 10,
+                                        "y": 12
+                                    },
+                                    {
+                                        "name": "volume",
+                                        "align": "tr",
+                                        "x": 5,
+                                        "y": 10
+                                    }
+                                ]
+                            }
+                        ]
+                    }, function (player) {
+                        player._switchLevel = 0;
+                        console.log("播放器创建了。");
+                    }
+                );
             }
 
 

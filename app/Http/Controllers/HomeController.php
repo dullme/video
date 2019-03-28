@@ -49,7 +49,7 @@ class HomeController extends Controller
 
         $redirect_to = $video->url;
 
-        return redirect()->to($redirect_to);
+        return response()->json($redirect_to);
     }
 
     public function videosList($id)
