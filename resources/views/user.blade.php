@@ -98,6 +98,7 @@
 
 @section('script')
     <script type="text/javascript">
+        var ss = true;
         var uo=document.getElementById('xufei');
         var tt= {{ config('pay_wait') }}
         function aoao(){
@@ -107,17 +108,22 @@
         function mooy(){
             $('.daojishi').html(tt);
             if(tt == 0){
-                uo.submit();
+                if(ss == true){
+                    uo.submit();
+                }
             }else{
                 tt--;
             }
             setTimeout(function () {
-                mooy()
+                if(tt > 0){
+                    mooy()
+                }
             }, 1000)
         }
 
         $(function () {
             $('#messageModal').on('hide.bs.modal', function () {
+                ss=false;
                 window.location.href='/unpay';
             })
         })
