@@ -155,7 +155,7 @@
                         "id": "player-con",
                         "source": url,
                         "width": "100%",
-                        "height": "500px",
+                        "height": "300px",
                         "autoplay": true,
                         "isLive": false,
                         "rePlay": false,
