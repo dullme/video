@@ -168,14 +168,17 @@ class HomeController extends Controller
 
         $html = file_get_contents($url);
         $reg = "/<a href=\"javascript:search_query((.*),(.*))\" >/i";
-        if(preg_match($reg, $html, $on)){
+//        if(preg_match($reg, $html, $on)){
             preg_match($reg, $html, $on);
-            $num = str_replace(")", "", $on[3]);
+
+            $on3 = $on[3]??'';
+            $num = str_replace(")", "", $on3);
 
             if (!$num) {
                 $reg = "/<a href=\"javascript:search_query((.*),(.*))\">\d+<\/a>/i";
                 preg_match($reg, $html, $on);
-                $num = str_replace(")", "", $on[3]);
+                $on3 = $on[3]??'';
+                $num = str_replace(")", "", $on3);
             }
 
             if (!$num) {
@@ -213,9 +216,9 @@ class HomeController extends Controller
             }
 
             return response()->json($data);
-        }else{
-            return response()->json(false);
-        }
+//        }else{
+//            return response()->json(false);
+//        }
 
     }
 
