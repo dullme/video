@@ -101,6 +101,7 @@
         var ss = true;
         var uo=document.getElementById('xufei');
         var tt= {{ config('pay_wait') }}
+        var tt2= {{ config('pay_wait') }}
         function aoao(){
             $('#messageModal').modal('show');
             mooy()
@@ -109,17 +110,19 @@
             $('.daojishi').html(tt);
             if(tt == 0){
                 if(ss == true){
+                    tt = tt2
+                    $('#messageModal').modal('hide');
                     uo.submit();
                 }
             }else{
                 tt--;
+                setTimeout(function () {
+                    if(tt >= 0){
+                        mooy()
+                    }
+                }, 1000)
             }
-            setTimeout(function () {
-                if(tt >= 0){
-                    console.log(tt)
-                    mooy()
-                }
-            }, 1000)
+
         }
 
         $(function () {
