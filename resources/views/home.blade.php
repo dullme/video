@@ -36,7 +36,7 @@
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content" style="background-color: #000000">
+            <div class="modal-content" style="background-color: #000000; min-height: 260px">
                 <div class="prism-player" id="player-con"></div>
             </div>
         </div>
@@ -50,10 +50,14 @@
         function show(id){
             axios.get('/videos/'+id).then(response=>{
                 console.log(response.data)
-                this.aliPlayer(response.data)
-            })
+                if(response.data.status == true){
+                    this.videoPlayer(response.data.url)
+                }else{
+                    $('#player-con').html('<h1 style="color: white;text-align: center;line-height: 260px;">成为会员即可观看</h1>')
+                    $('#exampleModal').modal('hide')
+                }
 
-            $('#video-modal').attr('src', '/videos/'+id);
+            })
             $('#exampleModal').modal('show')
         }
 
@@ -71,91 +75,19 @@
             })
         })
 
-        function aliPlayer(url){
-            var player = new Aliplayer({
-                    "id": "player-con",
-                    "source": url,
-                    "width": "100%",
-                    "height": "300px",
-                    "autoplay": true,
-                    "isLive": false,
-                    "rePlay": false,
-                    "playsinline": true,
-                    "preload": true,
-                    "controlBarVisibility": "hover",
-                    "useH5Prism": true,
-                    "components": [{
-                        name: 'RotateMirrorComponent',
-                        type: AliPlayerComponent.RotateMirrorComponent
-                    }],
-                    // "components": [{
-                    //     "name": "1",
-                    //     "type": "1",
-                    //      //第一个参数是试看时长, 单位为分钟
-                    //     /* 第二个参数可以传一个 Dom 字符串, 他将会替换默认的'试看已结束...'等文字 */
-                    //     args: [1]
-                    //   }],
-                    "skinLayout": [
-                        {
-                            "name": "bigPlayButton",
-                            "align": "blabs",
-                            "x": 30,
-                            "y": 80
-                        },
-                        {
-                            "name": "H5Loading",
-                            "align": "cc"
-                        },
-                        {
-                            "name": "infoDisplay"
-                        },
-                        {
-                            "name": "thumbnail"
-                        },
-                        {
-                            "name": "controlBar",
-                            "align": "blabs",
-                            "x": 0,
-                            "y": 0,
-                            "children": [
-                                {
-                                    "name": "progress",
-                                    "align": "blabs",
-                                    "x": 0,
-                                    "y": 44
-                                },
-                                {
-                                    "name": "playButton",
-                                    "align": "tl",
-                                    "x": 15,
-                                    "y": 12
-                                },
-                                {
-                                    "name": "timeDisplay",
-                                    "align": "tl",
-                                    "x": 10,
-                                    "y": 7
-                                },
-                                {
-                                    "name": "fullScreenButton",
-                                    "align": "tr",
-                                    "x": 10,
-                                    "y": 12
-                                },
-                                {
-                                    "name": "volume",
-                                    "align": "tr",
-                                    "x": 5,
-                                    "y": 10
-                                }
-                            ]
-                        }
-                    ]
-                }, function (player) {
-                    player._switchLevel = 0;
-                    console.log("播放器创建了。");
-                }
-            );
+        function videoPlayer(url) {
+            var player = cyberplayer("player-con").setup({
+                width: "100%",
+                height: 260,
+                stretching: "uniform",
+                file: url,
+                autostart: true,
+                repeat: false,
+                volume: 100,
+                controls: true,
+                ak: '4668eda105344271a13de896a78f3fa6' // 公有云平台注册即可获得accessKey
+            });
         }
+
     </script>
 @endsection

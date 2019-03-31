@@ -2,9 +2,15 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <h1>视频中心</h1>
+                <div>
+                    <h1>视频中心</h1>
+                    <div class="form-inline">
+                        <input style="width: 80%; border-right: 0; border-radius: 0;" class="form-control" type="search" v-model="keyword" placeholder="输入您想看的电影" aria-label="Search">
+                        <button v-on:click="searchVideo()" style="width: 20%;border-radius: 0;" class="btn btn-success" type="submit"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
 
-                <div id="video-class" style="margin-top: 1rem;overflow: auto;overflow-x:hidden">
+                <div id="video-class" style="margin-top: 1rem;overflow: auto;overflow-x:hidden" :class="is_search ? 'display-hidden' :''">
                     <div class="video-swiper-container">
                         <div class="swiper-wrapper" style="text-align: center">
                             <div v-for="item in category_list" class="swiper-slide" :class="current_category == item.id ? 'active':''">
@@ -14,7 +20,22 @@
                     </div>
                 </div>
 
-                <div class="video-lists">
+                <div style="margin-top: 1rem" class="search-lists" v-if="is_search">
+                    <div class="no-video" v-if="search_list.length == 0 && !search_loading">
+                        <span>暂无视频</span>
+                    </div>
+
+                    <div class="card card-video" style="margin-bottom: 1rem" v-for="item in search_list">
+                        <div style="cursor: pointer" v-on:click="videosGet(item.bfurl)">
+                            <div class="card-header">
+                                <a href="##" style="display:inline-block;width: 90%;overflow: hidden;word-break: keep-all;white-space: nowrap;text-overflow: ellipsis;">{{ item.name }}</a>
+                                <a style="float: right"><i class="fa fa-play fa-lg"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div v-else class="video-lists">
                     <div class="no-video" v-if="videos.length == 0 && !loading">
                         <span>暂无视频</span>
                     </div>
@@ -35,12 +56,21 @@
                     </div>
                 </div>
 
-                <div style="text-align: center; padding: 1rem 0">
+                <div style="text-align: center; padding: 1rem 0" v-if="is_search">
+                    <span class="btn btn-default" v-if="search_loading"><i class="fa fa-spinner fa-pulse"></i></span>
+                    <a style="cursor: pointer" class="btn btn-default" v-on:click="searchNext()" v-else-if="search_list.length < search_list_total">点击加载更多</a>
+                </div>
+
+                <div style="text-align: center; padding: 1rem 0" v-else>
                     <span class="btn btn-default" v-if="loading"><i class="fa fa-spinner fa-pulse"></i></span>
                     <a style="cursor: pointer" class="btn btn-default" v-on:click="more()" v-else-if="current_page != last_page">点击加载更多</a>
                 </div>
 
-                <div style="text-align: center; padding: 1rem 0" v-if="current_page == last_page && videos.length !=0">
+                <div style="text-align: center; padding: 1rem 0" v-if="is_search && !search_loading && search_list.length >= search_list_total && search_list.length!=0">
+                    <span style="color: #00000012;">——————&nbsp;&nbsp;&nbsp;&nbsp;我是有底线的&nbsp;&nbsp;&nbsp;&nbsp;——————</span>
+                </div>
+
+                <div style="text-align: center; padding: 1rem 0" v-if="!is_search && current_page == last_page && videos.length !=0">
                     <span style="color: #00000012;">——————&nbsp;&nbsp;&nbsp;&nbsp;我是有底线的&nbsp;&nbsp;&nbsp;&nbsp;——————</span>
                 </div>
 
@@ -51,7 +81,7 @@
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <div class="modal-content" style="background-color: #000000">
+                <div class="modal-content" style="background-color: #000000;min-height: 260px">
                     <div class="prism-player" id="player-con"></div>
                 </div>
             </div>
@@ -70,6 +100,12 @@
                 next_page_url :'', //下一页
                 category_list :[],
                 loading :false,
+                search_loading :false,
+                keyword :'',
+                search_list:[],
+                search_list_total:'',
+                search_list_page:1,
+                is_search:false
             }
         },
 
@@ -138,11 +174,14 @@
 
             show(id){
                 axios.get('/videos/'+id).then(response=>{
-                    console.log(response.data)
-                    this.aliPlayer(response.data)
+                    if(response.data.status == true){
+                        this.videoPlayer(response.data.url)
+                    }else{
+                        $('#player-con').html('<h1 style="color: white;text-align: center;line-height: 260px;">成为会员即可观看</h1>')
+                        $('#exampleModal').modal('hide')
+                    }
                 })
 
-                $('#video-modal').attr('src', '/videos/'+id);
                 $('#exampleModal').modal('show')
             },
 
@@ -150,91 +189,88 @@
                 this.getVideos(this.current_category, true)
             },
 
-            aliPlayer(url){
-                var player = new Aliplayer({
-                        "id": "player-con",
-                        "source": url,
-                        "width": "100%",
-                        "height": "300px",
-                        "autoplay": true,
-                        "isLive": false,
-                        "rePlay": false,
-                        "playsinline": true,
-                        "preload": true,
-                        "controlBarVisibility": "hover",
-                        "useH5Prism": true,
-                        "components": [{
-                            name: 'RotateMirrorComponent',
-                            type: AliPlayerComponent.RotateMirrorComponent
-                        }],
-                        // "components": [{
-                        //     "name": "1",
-                        //     "type": "1",
-                        //      //第一个参数是试看时长, 单位为分钟
-                        //     /* 第二个参数可以传一个 Dom 字符串, 他将会替换默认的'试看已结束...'等文字 */
-                        //     args: [1]
-                        //   }],
-                        "skinLayout": [
-                            {
-                                "name": "bigPlayButton",
-                                "align": "blabs",
-                                "x": 30,
-                                "y": 80
-                            },
-                            {
-                                "name": "H5Loading",
-                                "align": "cc"
-                            },
-                            {
-                                "name": "infoDisplay"
-                            },
-                            {
-                                "name": "thumbnail"
-                            },
-                            {
-                                "name": "controlBar",
-                                "align": "blabs",
-                                "x": 0,
-                                "y": 0,
-                                "children": [
-                                    {
-                                        "name": "progress",
-                                        "align": "blabs",
-                                        "x": 0,
-                                        "y": 44
-                                    },
-                                    {
-                                        "name": "playButton",
-                                        "align": "tl",
-                                        "x": 15,
-                                        "y": 12
-                                    },
-                                    {
-                                        "name": "timeDisplay",
-                                        "align": "tl",
-                                        "x": 10,
-                                        "y": 7
-                                    },
-                                    {
-                                        "name": "fullScreenButton",
-                                        "align": "tr",
-                                        "x": 10,
-                                        "y": 12
-                                    },
-                                    {
-                                        "name": "volume",
-                                        "align": "tr",
-                                        "x": 5,
-                                        "y": 10
-                                    }
-                                ]
-                            }
-                        ]
-                    }, function (player) {
-                        player._switchLevel = 0;
-                        console.log("播放器创建了。");
+            videoPlayer(url) {
+                var player = cyberplayer("player-con").setup({
+                    width: "100%",
+                    height: 260,
+                    stretching: "uniform",
+                    file: url,
+                    autostart: true,
+                    repeat: false,
+                    volume: 100,
+                    controls: true,
+                    ak: '4668eda105344271a13de896a78f3fa6' // 公有云平台注册即可获得accessKey
+                });
+            },
+
+            searchVideo(){
+                this.search_list = [];
+                this.search_list_total='';
+                this.search_list_page=1;
+                this.is_search = true;
+                this.search_loading = true;
+                axios.post('/search-video', {
+                    'keyword':this.keyword,
+                    'page':1,
+                }).then(response=>{
+                    this.search_loading = false;
+
+                    if(response.data){
+                        this.search_list_total = response.data.total
+
+                        let videos = response.data.list;
+                        videos.forEach((video) => {
+                            this.search_list.push(video);
+                        })
+                    }else{
+                        this.search_list = [];
                     }
-                );
+                }).catch(error => {
+                    console.log(error.response.data);
+                    this.search_loading = false;
+                });
+            },
+
+            searchNext(){
+                if(this.search_list.length < this.search_list_total){
+                    this.search_list_page = this.search_list_page + 1
+
+                    this.is_search = true;
+                    this.search_loading = true;
+                    axios.post('/search-video', {
+                        'keyword':this.keyword,
+                        'page':this.search_list_page,
+                    }).then(response=>{
+                        this.search_loading = false;
+
+                        if(response.data){
+                            let videos = response.data.list;
+                            videos.forEach((video) => {
+                                this.search_list.push(video);
+                            })
+                        }
+                    }).catch(error => {
+                        console.log(error.response.data);
+                        this.search_loading = false;
+                    });
+                }
+            },
+
+            videosGet(url){
+                $('#exampleModal').modal('show')
+
+                axios.post('/video-get',{
+                    'url' : url
+                }).then(response=>{
+                    if(response.data.status == true){
+                        this.videoPlayer(response.data.uri)
+                    }else{
+                        $('#player-con').html('<h1 style="color: white;text-align: center;line-height: 260px;">成为会员即可观看</h1>')
+                        $('#exampleModal').modal('hide')
+                    }
+                }).catch(error => {
+                    console.log(error.response.data);
+                });
             }
 
 

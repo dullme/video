@@ -8,6 +8,7 @@ use App\Recharge;
 use App\Suggest;
 use App\Video;
 use Carbon\Carbon;
+use http\Env\Response;
 use Session;
 use Illuminate\Http\Request;
 
@@ -42,14 +43,20 @@ class HomeController extends Controller
     public function videos($id)
     {
         if(is_null(Auth()->user()->expire_at) || Auth()->user()->expire_at <= Carbon::now()){
-            return view('daoqi');
+            return response()->json([
+                'status' => false,
+                'url' => '',
+            ]);
         }
 
         $video = Video::findOrFail($id);
 
         $redirect_to = $video->url;
 
-        return response()->json($redirect_to);
+        return response()->json([
+            'status' => true,
+            'url' => $redirect_to,
+        ]);
     }
 
     public function videosList($id)
@@ -146,5 +153,82 @@ class HomeController extends Controller
     public function unpay()
     {
         return view('unpay');
+    }
+
+    public function searchVideo(Request $request)
+    {
+        $keyword = trim($request->input('keyword'));
+        $page = intval($request->input('page'));
+        set_time_limit(0);
+
+        $url = "https://www.35pan.com/plaza/search/'" . urlencode($keyword) . "'/1/10";
+
+        $pattern_find = '/<table([\s\S]+?)<\/table>/i';
+        $pattern_replace = '/\s{2,}|\n|<br>| class="O3_8h_dn"/i';
+
+        $html = file_get_contents($url);
+        $reg = "/<a href=\"javascript:search_query((.*),(.*))\" >/i";
+        if(preg_match($reg, $html, $on)){
+            preg_match($reg, $html, $on);
+            $num = str_replace(")", "", $on[3]);
+
+            if (!$num) {
+                $reg = "/<a href=\"javascript:search_query((.*),(.*))\">\d+<\/a>/i";
+                preg_match($reg, $html, $on);
+                $num = str_replace(")", "", $on[3]);
+            }
+
+            if (!$num) {
+                $num = 1;
+            }
+            $data = ['number' => 0, 'list' => [], 'code' => '200', 'total' => $num];
+            if ($page > $num) {
+                echo json_encode(['code' => '201', 'msg' => '最大页数为' . $num], JSON_UNESCAPED_UNICODE);
+                die();
+            }
+            // for ($i = 1; $i <= $num; $i++) {
+            $url = "https://www.35pan.com/plaza/search/'" . urlencode($keyword) . "'/" . $page . "/10";
+            // echo $url;die();
+            $gtd = new SearchController($url, $pattern_find, $pattern_replace, '');
+            $result = $gtd->getTableJson();
+            $result = $result[1];
+            unset($result[0]);
+            $data['number'] = $data['number'] + count($result);
+
+            foreach ($result as $k => $r) {
+                $rule = '/<a href="(.*)" target="_blank"><i class="fa fa-file fa-lg"><\/i>(.*)<\/a>/i';
+                preg_match($rule, $r[1], $match);
+                $name = trim($match[2]);
+                $url = trim($match[1]);
+                //如果需要flash地址一起返回，则用下面地址
+                // --------------------------------------------------
+                // $ret = @file_get_contents($url);
+                // $rule2 = '/var huiid = "(.*)";/';
+                // preg_match($rule2, $ret, $match2);
+                // $uri = $match2[1];
+                // $data['list'][] = ['name' => $name, 'url' => $uri,'bfurl '=>$url ];
+                // --------------------------------------------------
+                // 只返回flash播放地址，由真正播放时去解析出m3u8地址，减少采集时不必要的正则消耗
+                $data['list'][] = ['name' => $name, 'bfurl' => $url];
+            }
+
+            return response()->json($data);
+        }else{
+            return response()->json(false);
+        }
+
+    }
+
+    function videoGet(Request $request){
+        $url = $request->input('url');
+        $ret = @file_get_contents($url);
+        $rule2 = '/var huiid = "(.*)";/';
+        preg_match($rule2, $ret, $match2);
+        $uri = $match2[1];
+
+        return response()->json([
+            'status' => true,
+            'uri' => $uri,
+        ]);
     }
 }

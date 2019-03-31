@@ -27,8 +27,8 @@ Route::group(['middleware' => 'auth.singleLogin'], function() {
     Route::post('/recharge', 'HomeController@recharge');
     Route::get('/call-back', 'HomeController@callBack');
     Route::get('/unpay', 'HomeController@unpay');
+    Route::post('/search-video', 'HomeController@searchVideo');
+    Route::post('/video-get', 'HomeController@videoGet');
 });
 
 Route::post('/notify', 'NotifyController@notify');
-
-
