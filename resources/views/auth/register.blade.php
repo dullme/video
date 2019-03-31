@@ -77,7 +77,7 @@
                                     <div class="input-group-prepend">
                                         <img src="{{captcha_src()}}" onclick="this.src='{{captcha_src()}}'+Math.random()">
                                     </div>
-                                    <input type="text" class="form-control{{ $errors->has('captcha') ? ' is-invalid' : '' }}" name="captcha" placeholder="验证码">
+                                    <input type="number" class="form-control{{ $errors->has('captcha') ? ' is-invalid' : '' }}" name="captcha" placeholder="验证码">
                                     @if ($errors->has('captcha'))
                                         <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('captcha') }}</strong>

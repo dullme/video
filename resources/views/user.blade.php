@@ -115,7 +115,8 @@
                 tt--;
             }
             setTimeout(function () {
-                if(tt > 0){
+                if(tt >= 0){
+                    console.log(tt)
                     mooy()
                 }
             }, 1000)
