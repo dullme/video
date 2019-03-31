@@ -58,7 +58,7 @@
 
                 <div style="text-align: center; padding: 1rem 0" v-if="is_search">
                     <span class="btn btn-default" v-if="search_loading"><i class="fa fa-spinner fa-pulse"></i></span>
-                    <a style="cursor: pointer" class="btn btn-default" v-on:click="searchNext()" v-else-if="search_list.length < search_list_total">点击加载更多</a>
+                    <a style="cursor: pointer" class="btn btn-default" v-on:click="searchNext()" v-else-if="search_list_page < search_list_total">点击加载更多</a>
                 </div>
 
                 <div style="text-align: center; padding: 1rem 0" v-else>
@@ -66,7 +66,7 @@
                     <a style="cursor: pointer" class="btn btn-default" v-on:click="more()" v-else-if="current_page != last_page">点击加载更多</a>
                 </div>
 
-                <div style="text-align: center; padding: 1rem 0" v-if="is_search && !search_loading && search_list.length >= search_list_total && search_list.length!=0">
+                <div style="text-align: center; padding: 1rem 0" v-if="is_search && !search_loading && search_list_page >= search_list_total && search_list.length!=0">
                     <span style="color: #00000012;">——————&nbsp;&nbsp;&nbsp;&nbsp;我是有底线的&nbsp;&nbsp;&nbsp;&nbsp;——————</span>
                 </div>
 
@@ -232,7 +232,7 @@
             },
 
             searchNext(){
-                if(this.search_list.length < this.search_list_total){
+                if(this.search_list_page < this.search_list_total){
                     this.search_list_page = this.search_list_page + 1
 
                     this.is_search = true;
