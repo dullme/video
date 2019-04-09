@@ -2,6 +2,9 @@
 
 namespace App\Admin\Controllers;
 
+use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
+use Session;
 use App\Category;
 use App\Video;
 use App\Http\Controllers\Controller;
@@ -10,6 +13,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Http\Request;
 
 class VideoController extends Controller
 {
@@ -89,6 +93,17 @@ class VideoController extends Controller
         $grid->name('名称');
         $grid->url('地址');
         $grid->images('图片')->gallery(['width' => 150, 'height' => 150, 'zooming' => true]);
+        $grid->url_images('图片2')->display(function ($url_images){
+            $url_images = json_decode($url_images);
+            if($url_images){
+                $html = '';
+                foreach ($url_images as $item){
+                    $html .= "<img style='max-width:150px;max-height:150px' class='img img-thumbnail' src='{$item}'/>";
+                }
+                return $html;
+            }
+            return '-';
+        });
         $grid->hot('是否推荐')->switch([
             'on'  => ['value' => 1, 'text' => '推荐', 'color' => 'success'],
             'off' => ['value' => 0, 'text' => '默认', 'color' => 'default'],
@@ -103,6 +118,10 @@ class VideoController extends Controller
             $actions->disableView();
         });
 
+        $grid->tools(function ($tools) {
+            $tools->append('<a class="btn btn-sm btn-default" href="' . url('/admin/add-videos') . '">批量导入视频</a>');
+        });
+
         $grid->filter(function ($filter){
             $filter->disableIdFilter();
             $filter->like('name', '名称');
@@ -115,6 +134,56 @@ class VideoController extends Controller
         $grid->disableExport();
 
         return $grid;
+    }
+
+    public function addVideos(Content $content)
+    {
+        $categories = Category::all();
+
+        return $content
+            ->header('批量导入视频')
+            ->description('')
+            ->body(view('saveVideos', compact('categories')));
+    }
+
+    public function saveVideos(Request $request)
+    {
+        $file = $request->file('file');
+        $category_id = $request->input('type');
+        if (!$file ||!in_array($file->getClientOriginalExtension(), ['xlsx', 'xls'])) {
+            Session::flash('saveVideos', '上传文件格式错误！');
+            return back();
+        }
+        $created_at = date('Y-m-d H:i:s', time());
+        $data = collect(Excel::load($file)->get()->toArray())->map(function ($item, $index = 0) use ($category_id, $created_at) {
+            $url_images = [];
+            if(isset($item['url_images1'])){
+                array_push($url_images, $item['url_images1']);
+            }
+            if(isset($item['url_images2'])){
+                array_push($url_images, $item['url_images2']);
+            }
+            if(isset($item['url_images3'])){
+                array_push($url_images, $item['url_images3']);
+            }
+
+            return [
+                'category_id' => $category_id,
+                'name' => isset($item['name']) ? $item['name'] : '未填写',
+                'url' => isset($item['url']) ? $item['url'] : '未填写',
+                'images' => '',
+                'url_images' => count($url_images) ? json_encode($url_images) : '',
+                'created_at' => $created_at,
+                'updated_at' => $created_at,
+            ];
+        });
+
+        if(Video::insert($data->toArray())){
+            Session::flash('saveVideos', '导入成功！');
+        }else{
+            Session::flash('saveVideos', '导入失败！');
+        }
+        return back();
     }
 
     /**

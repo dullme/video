@@ -19,6 +19,7 @@ class CreateVideosTable extends Migration
             $table->string('name');
             $table->string('url');
             $table->text('images')->nullable();
+            $table->text('url_images')->nullable()->comment('导入的图片地址');
             $table->boolean('hot')->default(0)->comment('1推荐;0不推荐');
             $table->boolean('status')->default(1)->comment('1显示;0不显示');
             $table->timestamps();
