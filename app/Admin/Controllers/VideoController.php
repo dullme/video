@@ -94,7 +94,6 @@ class VideoController extends Controller
         $grid->url('地址');
         $grid->images('图片')->gallery(['width' => 150, 'height' => 150, 'zooming' => true]);
         $grid->url_images('图片2')->display(function ($url_images){
-            $url_images = json_decode($url_images);
             if($url_images){
                 $html = '';
                 foreach ($url_images as $item){

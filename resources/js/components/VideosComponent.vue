@@ -48,8 +48,11 @@
                         </div>
                         <div class="card-body">
                             <div class="swiper-container swiper-videos">
-                                <div class="swiper-wrapper">
+                                <div class="swiper-wrapper" v-if="item.images">
                                     <div class="swiper-slide" v-for="image in item.images"><img width="100%" :src="'uploads/'+image"></div>
+                                </div>
+                                <div class="swiper-wrapper" v-else-if="item.url_images">
+                                    <div class="swiper-slide" v-for="image in item.url_images"><img width="100%" :src="image"></div>
                                 </div>
                             </div>
                         </div>

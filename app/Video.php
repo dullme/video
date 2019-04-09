@@ -23,4 +23,11 @@ class Video extends Model
     {
         return json_decode($images, true);
     }
+
+    public function getUrlImagesAttribute($images)
+    {
+        if ($images != '' || $images != null) {
+            return json_decode($images, true);
+        }
+    }
 }

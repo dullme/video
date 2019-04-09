@@ -24,7 +24,20 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    @elseif($video->url_images)
+                                    <div class="card-body">
+                                        <div class="swiper-container swiper-hot">
+                                            <div class="swiper-wrapper">
+                                                @foreach($video->url_images as $image)
+                                                    <div class="swiper-slide"><img width="100%" src="{{ $image }}"></div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 @endif
+
                             </div>
                         @endforeach
                     @endif
