@@ -98,6 +98,11 @@
                 repeat: false,
                 volume: 100,
                 controls: true,
+                controlbar: {
+                    barLogo: false, // 进度条上的logo显示与否,默认true
+                    barLogoUrl: "https://www.baidu.com/", // 进度条上的logo的跳转地址可配置
+                    canDrag: true, // 进度条是否允许拖动,默认true
+                },
                 ak: '4668eda105344271a13de896a78f3fa6' // 公有云平台注册即可获得accessKey
             });
         }

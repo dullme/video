@@ -35,9 +35,9 @@ trait SingleLoginAuthenticatesUsers
     {
         try {
             $timeStampNow = time();
-            $userLoginIp = $request->getClientIp();
+//            $userLoginIp = $request->getClientIp();
             $user = Auth::user();
-            $singleToken = md5($userLoginIp . $user->id . $timeStampNow);
+            $singleToken = md5($user->id . $timeStampNow);
             Redis::set('SINGLE_TOKEN_' . $user->id, $timeStampNow);
             session(['SINGLE_TOKEN' => $singleToken]);
         } catch (\Exception $exception) {

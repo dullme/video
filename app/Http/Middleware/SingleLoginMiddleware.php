@@ -53,8 +53,8 @@ class SingleLoginMiddleware
                 $lastLoginTimestamp = Redis::get('SINGLE_TOKEN_' . $user->id);
                 // 重新获取加密参数加密
 
-                $ip = $request->getClientIp();
-                $redisSingleToken = md5($ip . $user->id . $lastLoginTimestamp);
+//                $ip = $request->getClientIp();
+                $redisSingleToken = md5($user->id . $lastLoginTimestamp);
 
                 if ($cookieSingleToken != $redisSingleToken) {
                     //认定为重复登录了
