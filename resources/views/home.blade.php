@@ -66,8 +66,8 @@
                 if(response.data.status == true){
                     this.videoPlayer(response.data.url)
                 }else{
-                    $('#player-con').html('<h1 style="color: white;text-align: center;line-height: 260px;">成为会员即可观看</h1>')
-                    $('#exampleModal').modal('hide')
+                    $('#player-con').html('<h1 style="color: white;text-align: center;line-height: 260px;">成为会员即可观看</h1>');
+                    // $('#exampleModal').modal('hide')
                 }
 
             })
